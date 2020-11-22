@@ -98,22 +98,15 @@ StrongAttack() {
 ; =======================================
 
 $*f::
-    ;if WinActive("GenshinImpact.exe") return
-    ;if WinActive("ahk_class UnityWndClass") return
-    ;if WinActive("atom.exe") return
-    Send, {f Down}
-    Sleep, 30
-    Send, {f Up}
-    SetTimer, SendTheKey, 60
-    keyWait, f
-    SetTimer, SendTheKey, Off
+    PressF()
+    SetTimer, PressF, 40
+    KeyWait, f
+    SetTimer, PressF, Off
 return
 
-SendTheKey:
-  Send, {f Down}
-  Sleep, 30
-  Send, {f Up}
-return
+PressF() {
+    Send, {f}
+}
 
 
 
@@ -287,6 +280,9 @@ ReceiveReward(Expedition) {
 ; =======================================
 
 NumpadDot::
+    Active := WinActive("ahk_exe GenshinImpact.exe") ; it works
+    MsgBox, %Active%
+
     ;ToolTip, hey
     ;Sleep 1000
     ;ToolTip
