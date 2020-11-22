@@ -9,8 +9,14 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ; Global variables
 ; =======================================
 
-; 5k mora:
-global DihuaMarshExpedition := { MapNumber: 1, X: 728, Y: 332 }
+; ores:
+WhisperingWoodsExpedition := { MapNumber: 0, X: 1050, Y: 330 }
+DadaupaGorgeExpedition := { MapNumber: 0, X: 1170, Y: 660 }
+YaoguangShoalExpedition := { MapNumber: 1, X: 950, Y: 450 }
+
+; mora:
+StormterrorLairExpedition := { MapNumber: 0, X: 550, Y: 400 }
+DihuaMarshExpedition := { MapNumber: 1, X: 728, Y: 332 }
 
 
 ; =======================================
@@ -136,12 +142,13 @@ SendOnExpedition(Expedition, CharacterName) {
     MouseClick, left, 1800, 700 ; 20h
     Sleep 100
 
-    ; To Select Character menu
+    ; Click on "Select Character"
     MouseClick, left, 1730, 1000
     Sleep, 1500
 
     ; Find and select the character
     FindAndSelectCharacter(CharacterName)
+    Sleep, 100
 }
 
 
@@ -149,7 +156,7 @@ SendOnExpedition(Expedition, CharacterName) {
 ; Find character at character list. The caracter must not be highlighted.
 ; Returns array [x, y] or 0 if it's not found.
 FindCharacterOnScreen(CharacterName) {
-    ImageSearch, FoundX, FoundY, 40, 100, 200, 1050, *10 %CharacterName%.png
+    ImageSearch, FoundX, FoundY, 40, 100, 200, 1050, *30 %CharacterName%.png
     if (ErrorLevel = 1 || ErrorLevel = 2) {
         ;MsgBox, error level %ErrorLevel%
         return
@@ -169,16 +176,21 @@ ScrollDownCharacterList(CharacterAmount) {
 }
 
 FindAndSelectCharacter(CharacterName) {
-    ;todo scroll to the bottom, remove hardcode
-    Loop, 3 {
+    loop 5 {
         CharacterXY := FindCharacterOnScreen(CharacterName)
         if (CharacterXY) {
-            MouseClick, left, CharacterXY[1], CharacterXY[2] ; "Select Character" button
+            ; character was found, select it
+            MouseClick, left, CharacterXY[1], CharacterXY[2]
             Sleep 100
             break
         } else {
+            ; character was not found, scrolling down if we can
+            PixelGetColor, ScrollBarColor, 935, 1013, RGB
+            if (ScrollBarColor = "ECE5D8") {
+                break
+            }
             ScrollDownCharacterList(7)
-            Sleep 1000
+            Sleep 100
         }
     }
 }
@@ -187,8 +199,9 @@ FindAndSelectCharacter(CharacterName) {
 
 ; Debug
 Numpad9::
-    WorldY := 160 + (DihuaMarshExpedition["MapNumber"] * 72) ; initial position + offset between lines
-    MouseClick, left, 200, WorldY
+    FindAndSelectCharacter("ningguang")
+    ;PixelGetColor, ScrollBarColor, 935, 1013, RGB
+    ;MsgBox, % ScrollBarColor
 
     ;ListVars
     ;MsgBox, % WorldY
