@@ -9,6 +9,10 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ; Global variables
 ; =======================================
 
+; Expedition duration coordinates
+Duration4H := { X: 1500, Y: 700 }
+Duration20H := { X: 1800, Y: 700 }
+
 ; ores:
 WhisperingWoodsExpedition := { MapNumber: 0, X: 1050, Y: 330 }
 DadaupaGorgeExpedition := { MapNumber: 0, X: 1170, Y: 660 }
@@ -118,8 +122,7 @@ ChangeParty(Direction) {
 ; Expeditions
 ; =======================================
 
-
-
+; Recieve all the rewards
 Numpad2::
     ReceiveReward(WhisperingWoodsExpedition)
     ReceiveReward(DadaupaGorgeExpedition)
@@ -128,12 +131,14 @@ Numpad2::
     ReceiveReward(DihuaMarshExpedition)
 return
 
+; Send everyone to the expedition
 Numpad3::
-    SendOnExpedition(WhisperingWoodsExpedition, "amber")
-    SendOnExpedition(DadaupaGorgeExpedition, "kaeya")
-    SendOnExpedition(YaoguangShoalExpedition, "lisa")
-    SendOnExpedition(StormterrorLairExpedition, "noelle")
-    SendOnExpedition(DihuaMarshExpedition, "xiangling")
+    Duration := Duration4H
+    SendOnExpedition(WhisperingWoodsExpedition, "amber", Duration)
+    SendOnExpedition(DadaupaGorgeExpedition, "kaeya", Duration)
+    SendOnExpedition(YaoguangShoalExpedition, "lisa", Duration)
+    SendOnExpedition(StormterrorLairExpedition, "noelle", Duration)
+    SendOnExpedition(DihuaMarshExpedition, "xiangling", Duration)
 return
 
 SelectExpedition(Expedition) {
@@ -151,12 +156,15 @@ ClickOnBottomRightButton() {
     MouseClick, left, 1730, 1000
 }
 
-SendOnExpedition(Expedition, CharacterName) {
+SelectDuration(Duration) {
+    MouseClick, left, Duration["X"], Duration["Y"]
+    Sleep 100
+}
+
+SendOnExpedition(Expedition, CharacterName, Duration) {
     SelectExpedition(Expedition)
 
-    ; Select duration
-    MouseClick, left, 1800, 700 ; 20h
-    Sleep 100
+    SelectDuration(Duration)
 
     ; Click on "Select Character"
     ClickOnBottomRightButton()
@@ -231,7 +239,8 @@ ReceiveReward(Expedition) {
 ; =======================================
 
 NumpadDot::
-    ;SendOnExpedition(DadaupaGorgeExpedition, "kaeya")
+    ;SelectDuration(Coordinates4H)
+    SendOnExpedition(DadaupaGorgeExpedition, "kaeya", Duration4H)
 
     ;ReceiveReward(DihuaMarshExpedition)
     ;FindAndSelectCharacter("barbara")
