@@ -9,6 +9,9 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ; Global variables
 ; =======================================
 
+; Global state
+AutoAttackEnabled = 0
+
 ; Expedition duration coordinates
 Duration4H := { X: 1500, Y: 700 }
 Duration20H := { X: 1800, Y: 700 }
@@ -28,6 +31,7 @@ DihuaMarshExpedition := { MapNumber: 1, X: 728, Y: 332 }
 ; =======================================
 
 ; Pause script
+XButton2::
 Pause::
     Suspend
     ; Pause ; script won't be unpaused
@@ -42,6 +46,48 @@ return
 ^f::
     Send, ^f
 return
+
+
+
+; =======================================
+; Auto attack
+; =======================================
+
+XButton1::
+    if (AutoAttackEnabled) {
+        Hotkey, *~LButton, NormalAutoAttack, Off
+        Hotkey, *RButton, StrongAttack, Off
+        Message := "Disabled"
+    } else {
+        Hotkey, *~LButton, NormalAutoAttack, On
+        Hotkey, *RButton, StrongAttack, On
+        Message := "Enable"
+    }
+    AutoAttackEnabled := !AutoAttackEnabled
+
+    ToolTip, %Message%
+    sleep 700 ; TODO don't sleep
+    ToolTip
+return
+
+
+NormalAutoAttack() {
+    SetTimer, SpamLeftClick, 150
+    keyWait, LButton
+    SetTimer, SpamLeftClick, Off
+}
+
+SpamLeftClick() {
+    MouseClick left
+    Sleep, 150
+}
+
+StrongAttack() {
+    Click, down
+    Sleep 350
+    Click, up
+}
+
 
 
 
@@ -239,8 +285,12 @@ ReceiveReward(Expedition) {
 ; =======================================
 
 NumpadDot::
+    ;ToolTip, hey
+    ;Sleep 1000
+    ;ToolTip
+
     ;SelectDuration(Coordinates4H)
-    SendOnExpedition(DadaupaGorgeExpedition, "kaeya", Duration4H)
+    ;SendOnExpedition(DadaupaGorgeExpedition, "kaeya", Duration4H)
 
     ;ReceiveReward(DihuaMarshExpedition)
     ;FindAndSelectCharacter("barbara")
