@@ -157,11 +157,14 @@ SendOnExpedition(Expedition, CharacterName) {
 ; Returns array [x, y] or 0 if it's not found.
 FindCharacterOnScreen(CharacterName) {
     ImageSearch, FoundX, FoundY, 40, 100, 200, 1050, *30 %CharacterName%.png
-    if (ErrorLevel = 1 || ErrorLevel = 2) {
-        ;MsgBox, error level %ErrorLevel%
+    if (ErrorLevel = 2) {
+        ErrorMessage = Failed to search character %CharacterName%
+        throw Exception(ErrorMessage)
+    } else if (ErrorLevel = 1) {
         return
+    } else {
+        return [FoundX, FoundY]
     }
-    return [FoundX, FoundY]
 }
 
 ; Scroll down the passed number of characters
@@ -190,7 +193,7 @@ FindAndSelectCharacter(CharacterName) {
                 break
             }
             ScrollDownCharacterList(7)
-            Sleep 100
+            Sleep 300
         }
     }
 }
@@ -199,7 +202,9 @@ FindAndSelectCharacter(CharacterName) {
 
 ; Debug
 Numpad9::
-    FindAndSelectCharacter("ningguang")
+     FindCharacterOnScreen("none")
+
+    ;FindAndSelectCharacter("ningguang")
     ;PixelGetColor, ScrollBarColor, 935, 1013, RGB
     ;MsgBox, % ScrollBarColor
 
