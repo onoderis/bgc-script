@@ -69,8 +69,8 @@ return
 ; Spam left click
 ; =======================================
 
-Numpad7::
-While ( GetKeyState( "Numpad7","P" ) ) {
+NumpadSub::
+While ( GetKeyState( "NumpadSub","P" ) ) {
       MouseClick, left
       Sleep, 20
 }
@@ -121,34 +121,50 @@ ChangeParty(Direction) {
 
 
 Numpad2::
-    SendOnExpedition(DihuaMarshExpedition, "ningguang")
+    ReceiveReward(WhisperingWoodsExpedition)
+    ReceiveReward(DadaupaGorgeExpedition)
+    ReceiveReward(YaoguangShoalExpedition)
+    ReceiveReward(StormterrorLairExpedition)
+    ReceiveReward(DihuaMarshExpedition)
 return
 
 Numpad3::
-    SendOnExpedition(DihuaMarshExpedition, "barbara")
+    SendOnExpedition(WhisperingWoodsExpedition, "amber")
+    SendOnExpedition(DadaupaGorgeExpedition, "kaeya")
+    SendOnExpedition(YaoguangShoalExpedition, "lisa")
+    SendOnExpedition(StormterrorLairExpedition, "noelle")
+    SendOnExpedition(DihuaMarshExpedition, "xiangling")
 return
 
-SendOnExpedition(Expedition, CharacterName) {
+SelectExpedition(Expedition) {
     ; Click on the world
-    WorldY := 160 + (DihuaMarshExpedition["MapNumber"] * 72) ; initial position + offset between lines
+    WorldY := 160 + (Expedition["MapNumber"] * 72) ; initial position + offset between lines
     MouseClick, left, 200, WorldY
-    Sleep 300
+    Sleep 500
 
     ; Click on the expedition
-    MouseClick, left, Expedition[X], Expedition[Y]
-    Sleep 100
+    MouseClick, left, Expedition["X"], Expedition["Y"]
+    Sleep 200
+}
+
+ClickOnBottomRightButton() {
+    MouseClick, left, 1730, 1000
+}
+
+SendOnExpedition(Expedition, CharacterName) {
+    SelectExpedition(Expedition)
 
     ; Select duration
     MouseClick, left, 1800, 700 ; 20h
     Sleep 100
 
     ; Click on "Select Character"
-    MouseClick, left, 1730, 1000
+    ClickOnBottomRightButton()
     Sleep, 1500
 
     ; Find and select the character
     FindAndSelectCharacter(CharacterName)
-    Sleep, 100
+    Sleep, 300
 }
 
 
@@ -198,11 +214,27 @@ FindAndSelectCharacter(CharacterName) {
     }
 }
 
+ReceiveReward(Expedition) {
+    SelectExpedition(Expedition)
+
+    loop 2 {
+        ; receive reward and skip reward menu
+        ClickOnBottomRightButton()
+        Sleep 100
+    }
+}
 
 
+
+; =======================================
 ; Debug
-Numpad9::
-     FindCharacterOnScreen("none")
+; =======================================
+
+NumpadDot::
+    ;SendOnExpedition(DadaupaGorgeExpedition, "kaeya")
+
+    ;ReceiveReward(DihuaMarshExpedition)
+    ;FindAndSelectCharacter("barbara")
 
     ;FindAndSelectCharacter("ningguang")
     ;PixelGetColor, ScrollBarColor, 935, 1013, RGB
