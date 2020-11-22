@@ -66,10 +66,12 @@ XButton1::
     AutoAttackEnabled := !AutoAttackEnabled
 
     ToolTip, %Message%
-    sleep 700 ; TODO don't sleep
-    ToolTip
+    SetTimer, HideToolTip, -700
 return
 
+HideToolTip() {
+    ToolTip
+}
 
 NormalAutoAttack() {
     SetTimer, SpamLeftClick, 150
@@ -179,7 +181,7 @@ return
 
 ; Send everyone to the expedition
 Numpad3::
-    Duration := Duration4H
+    Duration := Duration20H
     SendOnExpedition(WhisperingWoodsExpedition, "amber", Duration)
     SendOnExpedition(DadaupaGorgeExpedition, "kaeya", Duration)
     SendOnExpedition(YaoguangShoalExpedition, "lisa", Duration)
@@ -274,7 +276,7 @@ ReceiveReward(Expedition) {
     loop 2 {
         ; receive reward and skip reward menu
         ClickOnBottomRightButton()
-        Sleep 100
+        Sleep 300
     }
 }
 
