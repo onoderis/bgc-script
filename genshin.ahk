@@ -27,6 +27,13 @@ DihuaMarshExpedition := { MapNumber: 1, X: 728, Y: 332 }
 
 
 ; =======================================
+; Script initialization
+; =======================================
+
+Gosub, PauseLoop
+
+
+; =======================================
 ; Technical
 ; =======================================
 
@@ -42,12 +49,15 @@ Numpad0::
     Reload
 return
 
-; Make ctrl+f works because off the *f bind
-^f::
-    Send, ^f
+PauseLoop:
+    Suspend ; run suspended
+    loop {
+        WinWaitActive, ahk_exe GenshinImpact.exe
+        Suspend, Off
+        WinWaitNotActive, ahk_exe GenshinImpact.exe
+        Suspend, On
+    }
 return
-
-
 
 ; =======================================
 ; Auto attack
@@ -280,8 +290,12 @@ ReceiveReward(Expedition) {
 ; =======================================
 
 NumpadDot::
-    Active := WinActive("ahk_exe GenshinImpact.exe") ; it works
-    MsgBox, %Active%
+    MsgBox, waiting
+    WinWaitActive, ahk_exe GenshinImpact.exe
+    MsgBox, active
+
+    ;Active := WinActive("ahk_exe GenshinImpact.exe")
+    ;MsgBox, %Active%
 
     ;ToolTip, hey
     ;Sleep 1000
