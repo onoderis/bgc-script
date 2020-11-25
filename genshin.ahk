@@ -230,7 +230,7 @@ SendOnExpedition(Expedition, CharacterName, Duration) {
 ; Find character at character list. The caracter must not be highlighted.
 ; Returns array [x, y] or 0 if it's not found.
 FindCharacterOnScreen(CharacterName) {
-    ImageSearch, FoundX, FoundY, 40, 100, 200, 1050, *30 %CharacterName%.png
+    ImageSearch, FoundX, FoundY, 40, 100, 200, 1050, *30 characters\%CharacterName%.png
     if (ErrorLevel = 2) {
         ErrorMessage = Failed to search character %CharacterName%
         throw Exception(ErrorMessage)
