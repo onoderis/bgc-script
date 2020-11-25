@@ -3,6 +3,7 @@
 ; #Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+#InstallKeybdHook
 
 
 ; =======================================
@@ -67,23 +68,24 @@ PauseLoop() {
 
 ConfigureAutoAttack() {
     global AutoAttackEnabled
-    Message := ""
 
-    PixelGetColor, Color, 366, 51, RGB ; top left online icon, bottom pixel of the star
+    PixelGetColor, Color, 807, 1010, RGB ; left pixel of the hp bar
+    HpBarFound := (Color = "0x8DC921")
 
-    if (Color = "0x818898" && !AutoAttackEnabled) {
+    Toggled := 0
+    if (HpBarFound && !AutoAttackEnabled) {
         ; enable auto attack
         Hotkey, *~LButton, NormalAutoAttack, On
         Hotkey, *RButton, StrongAttack, On
-        Message := "Enabled"
-    } else if (Color != "0x818898" && AutoAttackEnabled) {
+        Toggled := 1
+    } else if (!HpBarFound && AutoAttackEnabled) {
         ; disable auto attack
         Hotkey, *~LButton, NormalAutoAttack, Off
         Hotkey, *RButton, StrongAttack, Off
-        Message := "Disabled"
+        Toggled := 1
     }
 
-    if (Message) {
+    if (Toggled) {
         AutoAttackEnabled := !AutoAttackEnabled
     }
 }
