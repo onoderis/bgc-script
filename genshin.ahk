@@ -38,7 +38,6 @@ Gosub, PauseLoop
 ; =======================================
 
 ; Pause script
-XButton2::
 Pause::
     Suspend
     ; Pause ; script won't be unpaused
@@ -279,9 +278,24 @@ ReceiveReward(Expedition) {
     loop 2 {
         ; receive reward and skip reward menu
         ClickOnBottomRightButton()
-        Sleep 300
+        Sleep 200
     }
 }
+
+
+
+; =======================================
+; Klee machine gun
+; =======================================
+
+*XButton2::
+    while(GetKeyState("XButton2", "P")) {
+        Click
+        Sleep, 35
+        Send, {Space}
+        Sleep, 550
+    }
+return
 
 
 
@@ -290,9 +304,12 @@ ReceiveReward(Expedition) {
 ; =======================================
 
 NumpadDot::
-    MsgBox, waiting
-    WinWaitActive, ahk_exe GenshinImpact.exe
-    MsgBox, active
+    KeyState := GetKeyState("XButton2")
+    MsgBox, % KeyState
+
+    ;MsgBox, waiting
+    ;WinWaitActive, ahk_exe GenshinImpact.exe
+    ;MsgBox, active
 
     ;Active := WinActive("ahk_exe GenshinImpact.exe")
     ;MsgBox, %Active%
