@@ -8,7 +8,7 @@ Some of the controls in genshin impact can be annoying or frustrating. So I trie
 
 ### Features
 - Hold F to pick up loot
-- Auto attack mode (can be disabled/enabled via XButton1 key)
+- Auto attack mode (disables automatically in a menu)
     - hold LMB to perform basic attacks
     - click RMB to perform strong attack
 - Receive all rewards from expeditions (Numpad2)
@@ -19,14 +19,13 @@ Some of the controls in genshin impact can be annoying or frustrating. So I trie
 - Pauses when the game window is not active (or explicitly on Pause key)
 
 ### Additional info
-- Script is hard coded for 1920x1080 game resolution
+- Most of the features are hard coded for 1920x1080 game resolution. Create an issue if you want the support for your resolution
 - Expeditions and characters for them are also hard coded
 - LMB spam can be useful for increasing/decreasing ore amount when upgrading a weapon
 - Fast change of the party is useful during exploration. For example I have 2 parties: main one and the second one for trials. With this feature I can change to my trial party quickly, complete the trial and change back to the main party
 - I have made Klee machine gun feature for fun and I don't know how effective this technique is in terms of DPS
 
 ### TODO
-- Automatically disable auto attack mode in a menu
 - Custom resolution option
 - Expeditions customization
 - Your suggestions?

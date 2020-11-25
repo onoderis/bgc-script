@@ -16,12 +16,12 @@ AutoAttackEnabled = 0
 Duration4H := { X: 1500, Y: 700 }
 Duration20H := { X: 1800, Y: 700 }
 
-; ores:
+; Expetitions (crystals)
 WhisperingWoodsExpedition := { MapNumber: 0, X: 1050, Y: 330 }
 DadaupaGorgeExpedition := { MapNumber: 0, X: 1170, Y: 660 }
 YaoguangShoalExpedition := { MapNumber: 1, X: 950, Y: 450 }
 
-; mora:
+; Expetitions (mora)
 StormterrorLairExpedition := { MapNumber: 0, X: 550, Y: 400 }
 DihuaMarshExpedition := { MapNumber: 1, X: 728, Y: 332 }
 
@@ -30,7 +30,8 @@ DihuaMarshExpedition := { MapNumber: 1, X: 728, Y: 332 }
 ; Script initialization
 ; =======================================
 
-Gosub, PauseLoop
+SetTimer, PauseLoop
+SetTimer, ConfigureAutoAttack, 200
 
 
 ; =======================================
@@ -48,7 +49,7 @@ Numpad0::
     Reload
 return
 
-PauseLoop:
+PauseLoop() {
     Suspend ; run suspended
     loop {
         WinWaitActive, ahk_exe GenshinImpact.exe
@@ -56,30 +57,35 @@ PauseLoop:
         WinWaitNotActive, ahk_exe GenshinImpact.exe
         Suspend, On
     }
-return
+}
+
+
 
 ; =======================================
 ; Auto attack
 ; =======================================
 
-XButton1::
-    if (AutoAttackEnabled) {
+ConfigureAutoAttack() {
+    global AutoAttackEnabled
+    Message := ""
+
+    PixelGetColor, Color, 366, 51, RGB ; top left online icon, bottom pixel of the star
+
+    if (Color = "0x818898" && !AutoAttackEnabled) {
+        ; enable auto attack
+        Hotkey, *~LButton, NormalAutoAttack, On
+        Hotkey, *RButton, StrongAttack, On
+        Message := "Enabled"
+    } else if (Color != "0x818898" && AutoAttackEnabled) {
+        ; disable auto attack
         Hotkey, *~LButton, NormalAutoAttack, Off
         Hotkey, *RButton, StrongAttack, Off
         Message := "Disabled"
-    } else {
-        Hotkey, *~LButton, NormalAutoAttack, On
-        Hotkey, *RButton, StrongAttack, On
-        Message := "Enable"
     }
-    AutoAttackEnabled := !AutoAttackEnabled
 
-    ToolTip, %Message%
-    SetTimer, HideToolTip, -700
-return
-
-HideToolTip() {
-    ToolTip
+    if (Message) {
+        AutoAttackEnabled := !AutoAttackEnabled
+    }
 }
 
 NormalAutoAttack() {
@@ -98,7 +104,6 @@ StrongAttack() {
     Sleep 350
     Click, up
 }
-
 
 
 
@@ -304,8 +309,20 @@ return
 ; =======================================
 
 NumpadDot::
-    KeyState := GetKeyState("XButton2")
-    MsgBox, % KeyState
+    if ("") {
+        MsgBox, 123
+    }
+
+    ;PixelGetColor, Color, 366, 51, RGB ; top left online icon, bottom pixel of the star
+    ;if (Color = "0x818898") {
+    ;    MsgBox, on!
+    ;} else if (Color != "0x818898") {
+    ;    MsgBox, off!
+    ;}
+    ;MsgBox, % Color
+
+    ;KeyState := GetKeyState("XButton2")
+    ;MsgBox, % KeyState
 
     ;MsgBox, waiting
     ;WinWaitActive, ahk_exe GenshinImpact.exe
