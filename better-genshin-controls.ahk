@@ -255,7 +255,7 @@ ScrollDownCharacterList(CharacterAmount) {
     ScrollAmount := CharacterAmount * 7
     Loop %ScrollAmount% {
         Send, {WheelDown}
-        ;Sleep 17 TODO
+        Sleep 17 TODO
     }
 }
 
@@ -276,6 +276,10 @@ FindAndSelectCharacter(CharacterName) {
             ScrollDownCharacterList(7)
             Sleep 300
         }
+    }
+    if (CharacterXY = "") {
+        ErrorMessage = Character %CharacterName% wasn't found in the list
+        throw Exception(ErrorMessage)
     }
 }
 
