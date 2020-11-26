@@ -70,7 +70,7 @@ ConfigureAutoAttack() {
     global AutoAttackEnabled
 
     PixelGetColor, Color, 807, 1010, RGB ; left pixel of the hp bar
-    HpBarFound := (Color = "0x8DC921")
+    HpBarFound := (Color = "0x8DC921") || (Color = "0xEF5555") ; green or red
 
     Toggled := 0
     if (HpBarFound && !AutoAttackEnabled) {
