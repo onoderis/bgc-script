@@ -255,7 +255,7 @@ ScrollDownCharacterList(CharacterAmount) {
     ScrollAmount := CharacterAmount * 7
     Loop %ScrollAmount% {
         Send, {WheelDown}
-        Sleep 17 TODO
+        ;Sleep 17 TODO
     }
 }
 
