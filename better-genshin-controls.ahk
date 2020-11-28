@@ -106,7 +106,12 @@ SpamLeftClick() {
 
 StrongAttack() {
     Click, down
-    Sleep 350
+    KeyWait, RButton
+    TimeSinceKeyPressed := A_TimeSinceThisHotkey
+    if (TimeSinceKeyPressed < 350) {
+        ; hold LMB minimum for 350ms
+        Sleep, % 350 - TimeSinceKeyPressed
+    }
     Click, up
 }
 

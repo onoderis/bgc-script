@@ -9,13 +9,13 @@ Some of the controls in genshin impact can be annoying or frustrating. So I trie
 ### Features
 - Hold F to pick up loot
 - Auto attack mode (disables automatically in a menu)
-    - hold LMB to perform basic attacks
-    - click RMB to perform strong attack
+    - hold LMB to perform normal attacks
+    - click or hold RMB to perform charged attack
 - Receive all rewards from expeditions (Numpad2)
 - Send characters on expeditions (Numpad3)
 - Fast change of the current party (Numpad4 - previous, Numpad6 - next)
 - Hold Numpad '-' key to spam LMB click
-- Klee machine gun: hold XButton2 to perform first basic attacks and jump with perfect timing
+- Klee machine gun: hold XButton2 to perform first normal attacks and jump with perfect timing
 - Pauses when the game window is not active (or explicitly on Pause key)
 
 ### Additional info
