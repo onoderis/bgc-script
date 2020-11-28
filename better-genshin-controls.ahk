@@ -26,6 +26,9 @@ YaoguangShoalExpedition := { MapNumber: 1, X: 950, Y: 450 }
 StormterrorLairExpedition := { MapNumber: 0, X: 550, Y: 400 }
 DihuaMarshExpedition := { MapNumber: 1, X: 728, Y: 332 }
 
+; Expetitions (food)
+WindriseExpedition := { MapNumber: 0, X: 1111, Y: 455 }
+GuiliPlainsExpedition := { MapNumber: 1, X: 800, Y: 550 }
 
 ; =======================================
 ; Script initialization
@@ -184,8 +187,8 @@ Numpad2::
     ReceiveReward(WhisperingWoodsExpedition)
     ReceiveReward(DadaupaGorgeExpedition)
     ReceiveReward(YaoguangShoalExpedition)
-    ReceiveReward(StormterrorLairExpedition)
-    ReceiveReward(DihuaMarshExpedition)
+    ReceiveReward(WindriseExpedition)
+    ReceiveReward(GuiliPlainsExpedition)
 return
 
 ; Send everyone to the expedition
@@ -194,8 +197,8 @@ Numpad3::
     SendOnExpedition(WhisperingWoodsExpedition, "amber", Duration)
     SendOnExpedition(DadaupaGorgeExpedition, "kaeya", Duration)
     SendOnExpedition(YaoguangShoalExpedition, "lisa", Duration)
-    SendOnExpedition(StormterrorLairExpedition, "noelle", Duration)
-    SendOnExpedition(DihuaMarshExpedition, "xiangling", Duration)
+    SendOnExpedition(WindriseExpedition, "noelle", Duration)
+    SendOnExpedition(GuiliPlainsExpedition, "xiangling", Duration)
 return
 
 SelectExpedition(Expedition) {
