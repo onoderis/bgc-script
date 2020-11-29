@@ -11,7 +11,7 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ; =======================================
 
 ; Global state
-AutoAttackEnabled = 0
+BindingsEnabled = 0
 
 ; Expedition duration coordinates
 Duration4H := { X: 1500, Y: 700 }
@@ -35,7 +35,7 @@ GuiliPlainsExpedition := { MapNumber: 1, X: 800, Y: 550 }
 ; =======================================
 
 SetTimer, PauseLoop
-SetTimer, ConfigureAutoAttack, 200
+SetTimer, ConfigureBindings, 200
 
 
 ; =======================================
@@ -66,36 +66,46 @@ PauseLoop() {
 
 
 ; =======================================
-; Auto attack
+; Bindings
 ; =======================================
 
-ConfigureAutoAttack() {
-    global AutoAttackEnabled
+ConfigureBindings() {
+    global BindingsEnabled
 
     PixelGetColor, Color, 807, 1010, RGB ; left pixel of the hp bar
     HpBarFound := (Color = "0x8DC921") || (Color = "0xEF5555") ; green or red
 
     Toggled := 0
-    if (HpBarFound && !AutoAttackEnabled) {
-        ; enable auto attack
+    if (HpBarFound && !BindingsEnabled) {
+        ; enable bindings
         Hotkey, *~LButton, NormalAutoAttack, On
         Hotkey, *RButton, StrongAttack, On
+        Hotkey, ~$*f, SpamF, On
+        Hotkey, *XButton2, KleeMachineGun, On
         Toggled := 1
-    } else if (!HpBarFound && AutoAttackEnabled) {
-        ; disable auto attack
+    } else if (!HpBarFound && BindingsEnabled) {
+        ; disable bindings
         Hotkey, *~LButton, NormalAutoAttack, Off
         Hotkey, *RButton, StrongAttack, Off
+        Hotkey, ~$*f, SpamF, Off,
+        Hotkey, *XButton2, KleeMachineGun, Off
         Toggled := 1
     }
 
     if (Toggled) {
-        AutoAttackEnabled := !AutoAttackEnabled
+        BindingsEnabled := !BindingsEnabled
     }
 }
 
+
+
+; =======================================
+; Auto attack
+; =======================================
+
 NormalAutoAttack() {
     SetTimer, SpamLeftClick, 150
-    keyWait, LButton
+    KeyWait, LButton
     SetTimer, SpamLeftClick, Off
 }
 
@@ -121,12 +131,11 @@ StrongAttack() {
 ; Pick up on press
 ; =======================================
 
-$*f::
-    PressF()
+SpamF() {
     SetTimer, PressF, 40
     KeyWait, f
     SetTimer, PressF, Off
-return
+}
 
 PressF() {
     Send, {f}
@@ -307,14 +316,14 @@ ReceiveReward(Expedition) {
 ; Klee machine gun
 ; =======================================
 
-*XButton2::
+KleeMachineGun() {
     while(GetKeyState("XButton2", "P")) {
         Click
         Sleep, 35
         Send, {Space}
         Sleep, 550
     }
-return
+}
 
 
 
