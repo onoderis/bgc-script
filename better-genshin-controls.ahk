@@ -1,10 +1,10 @@
 ﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #MaxHotkeysPerInterval 100
+#InstallKeybdHook
+#InstallMouseHook
 ; #Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
-#InstallKeybdHook
-
 
 ; =======================================
 ; Global variables
@@ -12,6 +12,7 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 ; Global state
 BindingsEnabled = 0
+AutoRun = 0
 
 ; Expedition duration coordinates
 Duration4H := { X: 1500, Y: 700 }
@@ -208,11 +209,11 @@ return
 ; Send everyone to the expedition
 Numpad3::
     Duration := Duration20H
-    SendOnExpedition(WhisperingWoodsExpedition, "amber", Duration)
-    SendOnExpedition(DadaupaGorgeExpedition, "kaeya", Duration)
-    SendOnExpedition(YaoguangShoalExpedition, "lisa", Duration)
-    SendOnExpedition(WindriseExpedition, "noelle", Duration)
-    SendOnExpedition(GuiliPlainsExpedition, "xiangling", Duration)
+    SendOnExpedition(WhisperingWoodsExpedition, 4, Duration) ; Amber
+    SendOnExpedition(DadaupaGorgeExpedition, 5, Duration) ; Kaeya
+    SendOnExpedition(YaoguangShoalExpedition, 6, Duration) ; Lisa
+    SendOnExpedition(WindriseExpedition, 7, Duration) ; Noelle
+    SendOnExpedition(GuiliPlainsExpedition, 8, Duration) ; Xiangling
 return
 
 SelectExpedition(Expedition) {
@@ -235,7 +236,7 @@ SelectDuration(Duration) {
     Sleep 100
 }
 
-SendOnExpedition(Expedition, CharacterName, Duration) {
+SendOnExpedition(Expedition, CharacterNumberInList, Duration) {
     SelectExpedition(Expedition)
 
     SelectDuration(Duration)
@@ -245,23 +246,20 @@ SendOnExpedition(Expedition, CharacterName, Duration) {
     Sleep, 1500
 
     ; Find and select the character
-    FindAndSelectCharacter(CharacterName)
+    FindAndSelectCharacter(CharacterNumberInList)
     Sleep, 300
 }
 
+FindAndSelectCharacter(CharacterNumberInList) {
+    FirstCharacterX := 100
+    FirstCharacterY := 150
+    SpacingBetweenCharacters := 125
 
-
-; Find character at character list. The caracter must not be highlighted.
-; Returns array [x, y] or 0 if it's not found.
-FindCharacterOnScreen(CharacterName) {
-    ImageSearch, FoundX, FoundY, 40, 100, 200, 1050, *30 characters\%CharacterName%.png
-    if (ErrorLevel = 2) {
-        ErrorMessage = Failed to search character %CharacterName%
-        throw Exception(ErrorMessage)
-    } else if (ErrorLevel = 1) {
-        return
+    if (CharacterNumberInList <= 7) {
+        MouseClick, left, FirstCharacterX, FirstCharacterY + (SpacingBetweenCharacters * (CharacterNumberInList - 1))
     } else {
-        return [FoundX, FoundY]
+        ScrollDownCharacterList(CharacterNumberInList - 7.5)
+        MouseClick, left, FirstCharacterX, FirstCharacterY + (SpacingBetweenCharacters * 7)
     }
 }
 
@@ -272,31 +270,7 @@ ScrollDownCharacterList(CharacterAmount) {
     ScrollAmount := CharacterAmount * 7
     Loop %ScrollAmount% {
         Send, {WheelDown}
-        ;Sleep 17 TODO
-    }
-}
-
-FindAndSelectCharacter(CharacterName) {
-    loop 5 {
-        CharacterXY := FindCharacterOnScreen(CharacterName)
-        if (CharacterXY) {
-            ; character was found, select it
-            MouseClick, left, CharacterXY[1], CharacterXY[2]
-            Sleep 100
-            break
-        } else {
-            ; character was not found, scrolling down if we can
-            PixelGetColor, ScrollBarColor, 935, 1013, RGB
-            if (ScrollBarColor = "ECE5D8") {
-                break
-            }
-            ScrollDownCharacterList(7)
-            Sleep 300
-        }
-    }
-    if (CharacterXY = "") {
-        ErrorMessage = Character %CharacterName% wasn't found in the list
-        throw Exception(ErrorMessage)
+        Sleep 1
     }
 }
 
@@ -331,43 +305,15 @@ KleeMachineGun() {
 ; Debug
 ; =======================================
 
-NumpadDot::
-    if ("") {
-        MsgBox, 123
+*XButton1::
+    if (AutoRun) {
+        ControlSend ,, {w Down}, ahk_exe GenshinImpact.exe
+    } else {
+        ControlSend ,, {w Up}, ahk_exe GenshinImpact.exe
     }
+    AutoRun := !AutoRun
+return
 
-    ;PixelGetColor, Color, 366, 51, RGB ; top left online icon, bottom pixel of the star
-    ;if (Color = "0x818898") {
-    ;    MsgBox, on!
-    ;} else if (Color != "0x818898") {
-    ;    MsgBox, off!
-    ;}
-    ;MsgBox, % Color
-
-    ;KeyState := GetKeyState("XButton2")
-    ;MsgBox, % KeyState
-
-    ;MsgBox, waiting
-    ;WinWaitActive, ahk_exe GenshinImpact.exe
-    ;MsgBox, active
-
-    ;Active := WinActive("ahk_exe GenshinImpact.exe")
-    ;MsgBox, %Active%
-
-    ;ToolTip, hey
-    ;Sleep 1000
-    ;ToolTip
-
-    ;SelectDuration(Coordinates4H)
-    ;SendOnExpedition(DadaupaGorgeExpedition, "kaeya", Duration4H)
-
-    ;ReceiveReward(DihuaMarshExpedition)
-    ;FindAndSelectCharacter("barbara")
-
-    ;FindAndSelectCharacter("ningguang")
-    ;PixelGetColor, ScrollBarColor, 935, 1013, RGB
-    ;MsgBox, % ScrollBarColor
-
-    ;ListVars
-    ;MsgBox, % WorldY
+NumpadDot::
+    ListVars
 return
