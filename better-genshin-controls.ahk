@@ -67,7 +67,7 @@ PauseLoop() {
 
 
 ; =======================================
-; Bindings
+; Enable/disable contextual bindings
 ; =======================================
 
 ConfigureBindings() {
@@ -82,14 +82,12 @@ ConfigureBindings() {
         Hotkey, *~LButton, NormalAutoAttack, On
         Hotkey, *RButton, StrongAttack, On
         Hotkey, ~$*f, SpamF, On
-        Hotkey, *XButton2, KleeMachineGun, On
         Toggled := 1
     } else if (!HpBarFound && BindingsEnabled) {
         ; disable bindings
         Hotkey, *~LButton, NormalAutoAttack, Off
         Hotkey, *RButton, StrongAttack, Off
         Hotkey, ~$*f, SpamF, Off,
-        Hotkey, *XButton2, KleeMachineGun, Off
         Toggled := 1
     }
 
@@ -105,9 +103,9 @@ ConfigureBindings() {
 ; =======================================
 
 NormalAutoAttack() {
-    SetTimer, SpamLeftClick, 150
-    KeyWait, LButton
-    SetTimer, SpamLeftClick, Off
+    while(GetKeyState("LButton", "P")) {
+        SpamLeftClick()
+    }
 }
 
 SpamLeftClick() {
@@ -133,13 +131,10 @@ StrongAttack() {
 ; =======================================
 
 SpamF() {
-    SetTimer, PressF, 40
-    KeyWait, f
-    SetTimer, PressF, Off
-}
-
-PressF() {
-    Send, {f}
+    while(GetKeyState("f", "P")) {
+        Send, {f}
+        Sleep, 40
+    }
 }
 
 
@@ -148,11 +143,11 @@ PressF() {
 ; Spam left click
 ; =======================================
 
-NumpadSub::
-While ( GetKeyState( "NumpadSub","P" ) ) {
-      MouseClick, left
-      Sleep, 20
-}
+XButton2::
+    while(GetKeyState("XButton2" ,"P")) {
+        MouseClick, left
+        Sleep, 20
+    }
 return
 
 
@@ -198,33 +193,33 @@ ChangeParty(Direction) {
 ; =======================================
 
 ; Recieve all the rewards
-Numpad2::
+Numpad1::
     ReceiveReward(WhisperingWoodsExpedition)
     ReceiveReward(DadaupaGorgeExpedition)
     ReceiveReward(YaoguangShoalExpedition)
-    ReceiveReward(WindriseExpedition)
-    ReceiveReward(GuiliPlainsExpedition)
+    ReceiveReward(StormterrorLairExpedition)
+    ReceiveReward(DihuaMarshExpedition)
 return
 
 ; Send everyone to the expedition
-Numpad3::
+Numpad2::
     Duration := Duration20H
-    SendOnExpedition(WhisperingWoodsExpedition, 4, Duration) ; Amber
-    SendOnExpedition(DadaupaGorgeExpedition, 5, Duration) ; Kaeya
-    SendOnExpedition(YaoguangShoalExpedition, 6, Duration) ; Lisa
-    SendOnExpedition(WindriseExpedition, 7, Duration) ; Noelle
-    SendOnExpedition(GuiliPlainsExpedition, 8, Duration) ; Xiangling
+    SendOnExpedition(WhisperingWoodsExpedition, 4, Duration)
+    SendOnExpedition(DadaupaGorgeExpedition, 5, Duration)
+    SendOnExpedition(YaoguangShoalExpedition, 6, Duration)
+    SendOnExpedition(StormterrorLairExpedition, 7, Duration)
+    SendOnExpedition(DihuaMarshExpedition, 8, Duration)
 return
 
 SelectExpedition(Expedition) {
     ; Click on the world
     WorldY := 160 + (Expedition["MapNumber"] * 72) ; initial position + offset between lines
     MouseClick, left, 200, WorldY
-    Sleep 500
+    Sleep, 500
 
     ; Click on the expedition
     MouseClick, left, Expedition["X"], Expedition["Y"]
-    Sleep 200
+    Sleep, 200
 }
 
 ClickOnBottomRightButton() {
@@ -233,7 +228,7 @@ ClickOnBottomRightButton() {
 
 SelectDuration(Duration) {
     MouseClick, left, Duration["X"], Duration["Y"]
-    Sleep 100
+    Sleep, 100
 }
 
 SendOnExpedition(Expedition, CharacterNumberInList, Duration) {
@@ -270,7 +265,7 @@ ScrollDownCharacterList(CharacterAmount) {
     ScrollAmount := CharacterAmount * 7
     Loop %ScrollAmount% {
         Send, {WheelDown}
-        Sleep 1
+        Sleep, 10
     }
 }
 
@@ -280,22 +275,7 @@ ReceiveReward(Expedition) {
     loop 2 {
         ; receive reward and skip reward menu
         ClickOnBottomRightButton()
-        Sleep 200
-    }
-}
-
-
-
-; =======================================
-; Klee machine gun
-; =======================================
-
-KleeMachineGun() {
-    while(GetKeyState("XButton2", "P")) {
-        Click
-        Sleep, 35
-        Send, {Space}
-        Sleep, 550
+        Sleep, 200
     }
 }
 
