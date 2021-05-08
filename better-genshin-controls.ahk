@@ -310,6 +310,13 @@ Numpad8::
     MouseClick, left, X, Y
 return
 
+; Select max stacks and craft ores
+Numpad9::
+    MouseClick, left, 1464, 669 ; max stacks
+    Sleep, 50
+    ClickOnBottomRightButton()
+return
+
 ; =======================================
 ; Debug
 ; =======================================
