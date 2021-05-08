@@ -22,11 +22,9 @@ Duration20H := { X: 1800, Y: 700 }
 WhisperingWoodsExpedition := { MapNumber: 0, X: 1050, Y: 330 }
 DadaupaGorgeExpedition := { MapNumber: 0, X: 1170, Y: 660 }
 YaoguangShoalExpedition := { MapNumber: 1, X: 950, Y: 450 }
-
 ; Expetitions (mora)
 StormterrorLairExpedition := { MapNumber: 0, X: 550, Y: 400 }
 DihuaMarshExpedition := { MapNumber: 1, X: 728, Y: 332 }
-
 ; Expetitions (food)
 WindriseExpedition := { MapNumber: 0, X: 1111, Y: 455 }
 GuiliPlainsExpedition := { MapNumber: 1, X: 800, Y: 550 }
@@ -194,21 +192,21 @@ ChangeParty(Direction) {
 
 ; Recieve all the rewards
 Numpad1::
-    ReceiveReward(WhisperingWoodsExpedition)
-    ReceiveReward(DadaupaGorgeExpedition)
-    ReceiveReward(YaoguangShoalExpedition)
-    ReceiveReward(StormterrorLairExpedition)
+    ReceiveReward(StormterrorLairExpedition, 1000)
     ReceiveReward(DihuaMarshExpedition)
+    ReceiveReward(JueyunKarstExpedition)
+    ReceiveReward(WindriseExpedition)
+    ReceiveReward(GuiliPlainsExpedition)
 return
 
 ; Send everyone to the expedition
 Numpad2::
     Duration := Duration20H
-    SendOnExpedition(WhisperingWoodsExpedition, 4, Duration)
-    SendOnExpedition(DadaupaGorgeExpedition, 5, Duration)
-    SendOnExpedition(YaoguangShoalExpedition, 6, Duration)
-    SendOnExpedition(StormterrorLairExpedition, 7, Duration)
-    SendOnExpedition(DihuaMarshExpedition, 8, Duration)
+    SendOnExpedition(StormterrorLairExpedition, 4, Duration)
+    SendOnExpedition(DihuaMarshExpedition, 4, Duration)
+    SendOnExpedition(JueyunKarstExpedition, 5, Duration)
+    SendOnExpedition(WindriseExpedition, 7, Duration)
+    SendOnExpedition(GuiliPlainsExpedition, 7, Duration)
 return
 
 SelectExpedition(Expedition) {
@@ -269,14 +267,17 @@ ScrollDownCharacterList(CharacterAmount) {
     }
 }
 
-ReceiveReward(Expedition) {
+ReceiveReward(Expedition, ReceiveRewardLag := 0) {
     SelectExpedition(Expedition)
 
-    loop 2 {
-        ; receive reward and skip reward menu
-        ClickOnBottomRightButton()
-        Sleep, 200
-    }
+    ; receive reward
+    ClickOnBottomRightButton()
+    Sleep, 200
+    Sleep, ReceiveRewardLag
+
+    ;skip reward menu
+    ClickOnBottomRightButton()
+    Sleep, 200
 }
 
 
