@@ -317,6 +317,19 @@ Numpad9::
     ClickOnBottomRightButton()
 return
 
+; Go to the Serenitea Pot
+Numpad5::
+    Send, {b}
+    Sleep, 800
+    MouseClick, left, 1050, 50
+    Sleep, 200
+    MouseClick, left, 270, 180
+    Sleep, 200
+    ClickOnBottomRightButton()
+    Sleep, 700
+    Send, {f}
+return
+
 ; =======================================
 ; Debug
 ; =======================================
