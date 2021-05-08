@@ -302,6 +302,14 @@ Numpad7::
     MouseClick, left, 1400, 850 ; "Navigate" button
 return
 
+; Lock artifact
+Numpad8::
+    MouseGetPos, X, Y
+    MouseClick, left, 1738, 440
+    Sleep, 50
+    MouseClick, left, X, Y
+return
+
 ; =======================================
 ; Debug
 ; =======================================
