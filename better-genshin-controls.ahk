@@ -29,6 +29,13 @@ DihuaMarshExpedition := { MapNumber: 1, X: 728, Y: 332 }
 WindriseExpedition := { MapNumber: 0, X: 1111, Y: 455 }
 GuiliPlainsExpedition := { MapNumber: 1, X: 800, Y: 550 }
 
+; Handbook enemies
+MitachurlEnemyNumber := 13
+FatuiAgentEnemyNumber := 14
+
+SelectedEnemyNumber := FatuiAgentEnemyNumber
+
+
 ; =======================================
 ; Script initialization
 ; =======================================
@@ -281,7 +288,7 @@ ReceiveReward(Expedition, ReceiveRewardLag := 0) {
 }
 
 
-; Select Fatui Agent
+; Select enemy from handbook
 Numpad7::
     Send, {F1}
     Sleep, 1500
@@ -290,8 +297,7 @@ Numpad7::
     MouseMove, 550, 350 ; first item in the list
     Sleep, 200
 
-;    ScrollAmount := 10 * 12 ; 12 items, 10 scrolls for item
-    ScrollAmount := 10 * 21 ; 12 items, 10 scrolls for item
+    ScrollAmount := 10 * (SelectedEnemyNumber - 1) ; 10 scrolls for item
     loop %ScrollAmount% {
         Send, {WheelDown}
         Sleep, 20
