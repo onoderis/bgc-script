@@ -281,6 +281,26 @@ ReceiveReward(Expedition, ReceiveRewardLag := 0) {
 }
 
 
+; Select Fatui Agent
+Numpad7::
+    Send, {F1}
+    Sleep, 1500
+    MouseClick, left, 300, 550 ; "Enemies" tab
+    Sleep, 200
+    MouseMove, 550, 350 ; first item in the list
+    Sleep, 200
+
+;    ScrollAmount := 10 * 12 ; 12 items, 10 scrolls for item
+    ScrollAmount := 10 * 21 ; 12 items, 10 scrolls for item
+    loop %ScrollAmount% {
+        Send, {WheelDown}
+        Sleep, 20
+    }
+    MouseClick, left
+    Sleep, 200
+
+    MouseClick, left, 1400, 850 ; "Navigate" button
+return
 
 ; =======================================
 ; Debug
