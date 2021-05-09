@@ -25,6 +25,7 @@ YaoguangShoalExpedition := { MapNumber: 1, X: 950, Y: 450 }
 ; Expetitions (mora)
 StormterrorLairExpedition := { MapNumber: 0, X: 550, Y: 400 }
 DihuaMarshExpedition := { MapNumber: 1, X: 728, Y: 332 }
+JueyunKarstExpedition := { MapNumber: 1, X: 559, Y: 561 }
 ; Expetitions (food)
 WindriseExpedition := { MapNumber: 0, X: 1111, Y: 455 }
 GuiliPlainsExpedition := { MapNumber: 1, X: 800, Y: 550 }
