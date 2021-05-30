@@ -1,10 +1,13 @@
-﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+﻿#NoEnv
 #MaxHotkeysPerInterval 100
 #InstallKeybdHook
 #InstallMouseHook
-; #Warn  ; Enable warnings to assist with detecting common errors.
-SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
-SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+#Include WaitPixelColor.ahk
+
+SendMode Event
+SetWorkingDir %A_ScriptDir%
+SetKeyDelay 0
+SetMouseDelay 0
 
 ; =======================================
 ; Global variables
@@ -33,8 +36,9 @@ GuiliPlainsExpedition := { MapNumber: 1, X: 800, Y: 550 }
 ; Handbook enemies
 MitachurlEnemyNumber := 13
 FatuiAgentEnemyNumber := 14
+WhopperflowerEnemyNumber := 20
 
-SelectedEnemyNumber := FatuiAgentEnemyNumber
+SelectedEnemyNumber := WhopperflowerEnemyNumber
 
 
 ; =======================================
@@ -337,6 +341,23 @@ Numpad5::
     Send, {f}
 return
 
+; Relogin
+Numpad3::
+    Send, {Esc}
+    WaitPixelColor(0xECE5D8, 729, 63, 800) ; wait for menu
+
+    MouseClick, left, 49, 1022 ; logout button
+    WaitPixelColor(0xD6AF32, 1024, 753, 100) ; wait logout menu
+
+    MouseClick, left, 1197, 759 ; confirm
+    WaitPixelColor(0x222222, 1823, 794, 8000) ; wait for settings icon
+
+    MouseClick, left, 500, 500
+    WaitPixelColor(0xffffff, 918, 1015, 15000) ; wait for "click to begin"
+
+    MouseClick, left, 600, 500
+return
+
 ; =======================================
 ; Debug
 ; =======================================
@@ -351,5 +372,20 @@ return
 return
 
 NumpadDot::
-    ListVars
+    ;KeyHistory
+
+    LBState := GetKeyState("LButton", "P")
+    FState := GetKeyState("f", "P")
+    XBState := GetKeyState("XButton2" ,"P")
+
+    GetKeyState, LBStateHack, LButton, P
+    GetKeyState, FStateHack, f, P
+    GetKeyState, XB2StateHack, XButton2, P
+
+    MsgBox, lb: %LBState%, xb: %XBState%, f: %FState% | lb(hack): %LBStateHack%, xb(hack): %XB2StateHack%, f(hack): %FStateHack%
+
+    ;ListVars
+;    ControlSend, , {tab}, ahk_exe GenshinImpact.exe
+;    ControlSend, , 12345, ahk_exe notepad.exe
+;    Send, {tab}
 return
