@@ -6,7 +6,7 @@ The script is hard coded for 1920x1080 game resolution.
 ### How to use it
 1. Download [autohotkey](https://www.autohotkey.com) (the script is tested on version 1.1.33.08)
 2. Download this repository
-3. Run the .ahk script with administrator rights
+3. Run `better-genshin-controls.ahk` script with administrator rights
 4. Run the game in fullscreen mode or in borderless window mode (with "-popupwindow" option)
 
 ### Features
