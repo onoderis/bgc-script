@@ -143,7 +143,7 @@ StrongAttack() {
 SpamF() {
     while(GetKeyState("f", "P")) {
         Send, {f}
-        Sleep, 40
+        Sleep, 100
     }
 }
 
@@ -321,7 +321,7 @@ return
 
 ; Select max stacks and craft ores
 Numpad9::
-    MouseClick, left, 1464, 669 ; max stacks
+    MouseClick, left, 1467, 669 ; max stacks
     Sleep, 50
     ClickOnBottomRightButton()
 return
@@ -329,11 +329,11 @@ return
 ; Go to the Serenitea Pot
 Numpad5::
     Send, {b}
-    Sleep, 800
+    Sleep, 900
     MouseClick, left, 1050, 50
-    Sleep, 200
+    Sleep, 250
     MouseClick, left, 270, 180
-    Sleep, 200
+    Sleep, 250
     ClickOnBottomRightButton()
     Sleep, 700
     Send, {f}
@@ -351,7 +351,8 @@ Numpad3::
     WaitPixelColor(0x222222, 1823, 794, 8000) ; wait for settings icon
 
     MouseClick, left, 500, 500
-    WaitPixelColor(0xffffff, 918, 1015, 15000) ; wait for "click to begin"
+    Sleep, 500
+    WaitPixelColor(0xFEFEFE, 1808, 793, 15000) ; wait for "click to begin"
 
     MouseClick, left, 600, 500
 return
