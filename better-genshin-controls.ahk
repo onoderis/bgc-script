@@ -84,7 +84,7 @@ ConfigureBindings() {
     global BindingsEnabled
 
     PixelGetColor, Color, 807, 1010, RGB ; left pixel of the hp bar
-    HpBarFound := (Color = "0x8DC921") || (Color = "0xEF5555") ; green or red
+    HpBarFound := (Color = "0x8DC921") || (Color = "0xEF5555") || (Color = "0xEFBF2F") ; green or red or orange
 
     Toggled := 0
     if (HpBarFound && !BindingsEnabled) {
