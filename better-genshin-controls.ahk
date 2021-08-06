@@ -177,10 +177,8 @@ return
 
 
 ChangeParty(Direction) {
-  Send, {Esc}
-  Sleep, 800
-  MouseClick, left, 348, 414 ; Party setup
-  Sleep, 3000
+  Send, {l}
+  Sleep, 3100
   if (Direction = "left") {
     MouseClick, left, 75, 539
   } else {
