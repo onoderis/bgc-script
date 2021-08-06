@@ -386,18 +386,19 @@ return
     }
 return
 
+; Klee animation cancelling
+*XButton1::
+    while(GetKeyState("XButton1", "P")) {
+        Click
+        Sleep, 35
+        Send, {Space}
+        Sleep, 550
+    }
+return
+
 ; =======================================
 ; Debug
 ; =======================================
-
-*XButton1::
-    if (AutoRun) {
-        ControlSend ,, {w Down}, ahk_exe GenshinImpact.exe
-    } else {
-        ControlSend ,, {w Up}, ahk_exe GenshinImpact.exe
-    }
-    AutoRun := !AutoRun
-return
 
 NumpadDot::
     ;KeyHistory
