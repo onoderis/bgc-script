@@ -143,7 +143,7 @@ StrongAttack() {
 SpamF() {
     while(GetKeyState("f", "P")) {
         Send, {f}
-        Sleep, 100
+        Sleep, 40
     }
 }
 
