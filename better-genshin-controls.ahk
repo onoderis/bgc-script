@@ -29,6 +29,8 @@ YaoguangShoalExpedition := { MapNumber: 1, X: 950, Y: 450 }
 StormterrorLairExpedition := { MapNumber: 0, X: 550, Y: 400 }
 DihuaMarshExpedition := { MapNumber: 1, X: 728, Y: 332 }
 JueyunKarstExpedition := { MapNumber: 1, X: 559, Y: 561 }
+JinrenIslandExpedition := { MapNumber: 2, X: 1097, Y: 274 }
+TarasunaExpedition := { MapNumber: 2, X: 828, Y: 828 }
 ; Expetitions (food)
 WindriseExpedition := { MapNumber: 0, X: 1111, Y: 455 }
 GuiliPlainsExpedition := { MapNumber: 1, X: 800, Y: 550 }
@@ -205,18 +207,18 @@ Numpad1::
     ReceiveReward(StormterrorLairExpedition, 1000)
     ReceiveReward(DihuaMarshExpedition)
     ReceiveReward(JueyunKarstExpedition)
-    ReceiveReward(WindriseExpedition)
-    ReceiveReward(GuiliPlainsExpedition)
+    ReceiveReward(JinrenIslandExpedition)
+    ReceiveReward(TarasunaExpedition)
 return
 
 ; Send everyone to the expedition
 Numpad2::
     Duration := Duration20H
-    SendOnExpedition(StormterrorLairExpedition, 4, Duration)
-    SendOnExpedition(DihuaMarshExpedition, 4, Duration)
-    SendOnExpedition(JueyunKarstExpedition, 5, Duration)
-    SendOnExpedition(WindriseExpedition, 7, Duration)
-    SendOnExpedition(GuiliPlainsExpedition, 7, Duration)
+    SendOnExpedition(StormterrorLairExpedition, 3, Duration)
+    SendOnExpedition(DihuaMarshExpedition, 3, Duration)
+    SendOnExpedition(JueyunKarstExpedition, 4, Duration)
+    SendOnExpedition(JinrenIslandExpedition, 4, Duration)
+    SendOnExpedition(TarasunaExpedition, 5, Duration)
 return
 
 SelectExpedition(Expedition) {
@@ -239,6 +241,8 @@ SelectDuration(Duration) {
     Sleep, 100
 }
 
+; Send character to an expedition.
+; CharacterNumberInList - starts from 1.
 SendOnExpedition(Expedition, CharacterNumberInList, Duration) {
     SelectExpedition(Expedition)
 
