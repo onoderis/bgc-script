@@ -2,7 +2,7 @@
 #MaxHotkeysPerInterval 100
 #InstallKeybdHook
 #InstallMouseHook
-#Include WaitPixelColor.ahk
+#Include lib.ahk
 
 SendMode Event
 SetWorkingDir %A_ScriptDir%
@@ -168,7 +168,6 @@ return
 ; Change character group
 ; =======================================
 
-
 Numpad4::
   ChangeParty("left")
 return
@@ -232,10 +231,6 @@ SelectExpedition(Expedition) {
     Sleep, 200
 }
 
-ClickOnBottomRightButton() {
-    MouseClick, left, 1730, 1000
-}
-
 SelectDuration(Duration) {
     MouseClick, left, Duration["X"], Duration["Y"]
     Sleep, 100
@@ -295,27 +290,10 @@ ReceiveReward(Expedition, ReceiveRewardLag := 0) {
 }
 
 
-; Select enemy from handbook
-Numpad7::
-    Send, {F1}
-    Sleep, 1500
-    MouseClick, left, 300, 550 ; "Enemies" tab
-    Sleep, 200
-    MouseMove, 550, 350 ; first item in the list
-    Sleep, 200
-
-    ScrollAmount := 10 * (SelectedEnemyNumber - 1) ; 10 scrolls for item
-    loop %ScrollAmount% {
-        Send, {WheelDown}
-        Sleep, 20
-    }
-    MouseClick, left
-    Sleep, 200
-
-    MouseClick, left, 1400, 850 ; "Navigate" button
-return
-
+; =======================================
 ; Lock artifact
+; =======================================
+
 Numpad8::
     MouseGetPos, X, Y
     MouseClick, left, 1738, 440
@@ -323,14 +301,24 @@ Numpad8::
     MouseClick, left, X, Y
 return
 
-; Select max stacks and craft ores
+
+
+; =======================================
+; Select maximum stacks and craft ores
+; =======================================
+
 Numpad9::
     MouseClick, left, 1467, 669 ; max stacks
     Sleep, 50
     ClickOnBottomRightButton()
 return
 
+
+
+; =======================================
 ; Go to the Serenitea Pot
+; =======================================
+
 Numpad5::
     Send, {b}
     Sleep, 900
@@ -343,25 +331,34 @@ Numpad5::
     Send, {f}
 return
 
+
+
+; =======================================
 ; Relogin
+; =======================================
+
 Numpad3::
-    Send, {Esc}
-    WaitPixelColor(0xECE5D8, 729, 63, 800) ; wait for menu
+    OpenMenu()
 
     MouseClick, left, 49, 1022 ; logout button
-    WaitPixelColor(0xD6AF32, 1024, 753, 100) ; wait logout menu
+    WaitPixelColor("D7AF32", 1024, 753, 5000) ; wait logout menu
 
     MouseClick, left, 1197, 759 ; confirm
-    WaitPixelColor(0x222222, 1823, 794, 8000) ; wait for settings icon
+    WaitPixelColor("222222", 1823, 794, 5000) ; wait for settings icon
 
     MouseClick, left, 500, 500
     Sleep, 500
-    WaitPixelColor(0xFEFEFE, 1808, 793, 15000) ; wait for "click to begin"
+    WaitPixelColor("FEFEFE", 1808, 793, 15000) ; wait for "click to begin"
 
     MouseClick, left, 600, 500
 return
 
+
+
+; =======================================
 ; Hold 1-4 to switch character
+; =======================================
+
 *1::
     while(GetKeyState("1", "P")) {
         Send, {1}
@@ -390,7 +387,10 @@ return
     }
 return
 
+
+; =======================================
 ; Klee animation cancelling
+; =======================================
 *XButton1::
     while(GetKeyState("XButton1", "P")) {
         Click
@@ -400,25 +400,52 @@ return
     }
 return
 
+
+; =======================================
+; Wait for the next night
+; =======================================
+Numpad7::
+    OpenMenu()
+
+    MouseClick, left, 45, 715 ; clock icon
+    WaitPixelColor("ECE5D8", 1870, 50, 5000) ; wait for clock menu
+
+    ClockCenterX := 1440
+    ClockCenterY := 501
+    Offset := 30
+
+    ClickOnClock(ClockCenterX, ClockCenterY + Offset) ; 00:00
+    ClickOnClock(ClockCenterX - Offset, ClockCenterY) ; 06:00
+    ClickOnClock(ClockCenterX, ClockCenterY - Offset) ; 12:00
+    ClickOnClock(ClockCenterX + Offset, ClockCenterY) ; 18:00
+
+    MouseClick, left, 1440, 1000 ; "Confirm" button
+
+    Sleep, 100
+    WaitPixelColor("ECE5D8", 1870, 50, 30000) ; wait for clock menu
+
+    Send, {Esc}
+    WaitPixelColor("ECE5D8", 729, 63, 5000) ; wait for menu
+
+    Send, {Esc}
+return
+
+
+ClickOnClock(X, Y) {
+    SendEvent, {Click %X% %Y% Down}
+    Sleep, 50
+    SendEvent, {Click %X% %Y% Up}
+    Sleep, 100
+}
+
+
 ; =======================================
 ; Debug
 ; =======================================
 
 NumpadDot::
     ;KeyHistory
-
-    LBState := GetKeyState("LButton", "P")
-    FState := GetKeyState("f", "P")
-    XBState := GetKeyState("XButton2" ,"P")
-
-    GetKeyState, LBStateHack, LButton, P
-    GetKeyState, FStateHack, f, P
-    GetKeyState, XB2StateHack, XButton2, P
-
-    MsgBox, lb: %LBState%, xb: %XBState%, f: %FState% | lb(hack): %LBStateHack%, xb(hack): %XB2StateHack%, f(hack): %FStateHack%
-
     ;ListVars
-;    ControlSend, , {tab}, ahk_exe GenshinImpact.exe
-;    ControlSend, , 12345, ahk_exe notepad.exe
-;    Send, {tab}
+
+    MsgBox, test
 return
