@@ -169,30 +169,28 @@ return
 ; =======================================
 
 Numpad4::
-  ChangeParty("left")
+    ChangeParty("left")
 return
 
 Numpad6::
-  ChangeParty("right")
+    ChangeParty("right")
 return
 
 
 ChangeParty(Direction) {
-  Send, {l}
-  Sleep, 3100
-  if (Direction = "left") {
-    MouseClick, left, 75, 539
-  } else {
-    MouseClick, left, 1845, 539
-  }
-  Sleep, 100
+    Send, {l}
+    WaitFullScreenMenu(5000)
+    if (Direction = "left") {
+        MouseClick, left, 75, 539
+    } else {
+        MouseClick, left, 1845, 539
+    }
 
-  MouseClick, left, 1700, 1000 ; press Deploy button
-  Sleep, 300
-  Send, {Esc} ; first escape cancels the notification
-  Sleep, 400
-  Send, {Esc}
-  return
+    WaitDeployButtonActive(1000)
+    MouseClick, left, 1700, 1000 ; press Deploy button
+
+    WaitPixelColor("FFFFFF", 836, 491, 2000) ; wait for "Party deployed" notification
+    Send, {Esc}
 }
 
 
@@ -320,14 +318,15 @@ return
 ; =======================================
 
 Numpad5::
-    Send, {b}
-    Sleep, 900
-    MouseClick, left, 1050, 50
-    Sleep, 250
-    MouseClick, left, 270, 180
-    Sleep, 250
+    OpenInventory()
+
+    MouseClick, left, 1050, 50 ; gadgets tab
+    WaitPixelColor("D3BC8E", 1055, 92, 1000) ; wait for tab to be active
+
+    MouseClick, left, 270, 180 ; select first gadget
     ClickOnBottomRightButton()
-    Sleep, 700
+
+    WaitDialogMenu()
     Send, {f}
 return
 
@@ -425,7 +424,7 @@ Numpad7::
     WaitPixelColor("ECE5D8", 1870, 50, 30000) ; wait for clock menu
 
     Send, {Esc}
-    WaitPixelColor("ECE5D8", 729, 63, 5000) ; wait for menu
+    WaitMenu()
 
     Send, {Esc}
 return
@@ -443,9 +442,15 @@ ClickOnClock(X, Y) {
 ; Debug
 ; =======================================
 
-NumpadDot::
+*NumpadDot::
     ;KeyHistory
     ;ListVars
 
-    MsgBox, test
+    MouseGetPos, X, Y
+    PixelGetColor, Color, X, Y , "RGB"
+
+    MsgBox, %Color% %X% %Y%
+
+    ;OpenInventory()
+    ;MsgBox, test
 return
