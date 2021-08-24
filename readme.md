@@ -14,20 +14,21 @@ The script is hard coded for 1920x1080 game resolution.
 - Auto attack mode (disables automatically in a menu)
     - hold LMB to perform normal attacks
     - click or hold RMB to perform charged attack
+- Auto unfreeze
 - Receive all rewards from expeditions (Numpad1)
 - Send characters on expeditions (Numpad2)
 - Go to the serenitea pot (Numpad5)
 - Relogin (Numpad3)
 - Wait for the next night (Numpad7)
-- Lock artifact (Numpad8, works only in the bag menu)
-- Craft maximum amount of ores (Numpad9, works in the blacksmith menu)
 - Change current party (Numpad4 - previous, Numpad6 - next)
 - Animation cancelling for Klee (XButton1)
 - Spam LMB click (XButton2) 
-- You can hold 1-4 to switch to a character  
+- Lock artifact (Numpad8, works only in the bag menu)
+- Craft maximum amount of ores (Numpad9, works in the blacksmith menu)
+- You can hold 1-4 to switch characters instead of clicking  
 - Pauses when the game window is not active (or explicitly on Pause key)
 
 ### Additional info
 - The script has no GUI
 - Relogin is useful to respawn bosses
-- LMB spam is useful for increasing/decreasing ore amount when upgrading a weapon or to skip dialogs
+- LMB spam is useful to skip dialogs or to increase/decrease item count while upgrading a weapon or a character

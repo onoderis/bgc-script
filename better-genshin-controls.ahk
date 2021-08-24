@@ -14,8 +14,8 @@ SetMouseDelay 0
 ; =======================================
 
 ; Global state
-BindingsEnabled = 0
-AutoRun = 0
+BindingsEnabled := 0
+AutoRun := 0
 
 ; Expedition duration coordinates
 Duration4H := { X: 1500, Y: 700 }
@@ -25,22 +25,18 @@ Duration20H := { X: 1800, Y: 700 }
 WhisperingWoodsExpedition := { MapNumber: 0, X: 1050, Y: 330 }
 DadaupaGorgeExpedition := { MapNumber: 0, X: 1170, Y: 660 }
 YaoguangShoalExpedition := { MapNumber: 1, X: 950, Y: 450 }
+
 ; Expetitions (mora)
 StormterrorLairExpedition := { MapNumber: 0, X: 550, Y: 400 }
 DihuaMarshExpedition := { MapNumber: 1, X: 728, Y: 332 }
 JueyunKarstExpedition := { MapNumber: 1, X: 559, Y: 561 }
 JinrenIslandExpedition := { MapNumber: 2, X: 1097, Y: 274 }
 TarasunaExpedition := { MapNumber: 2, X: 828, Y: 828 }
+
 ; Expetitions (food)
 WindriseExpedition := { MapNumber: 0, X: 1111, Y: 455 }
 GuiliPlainsExpedition := { MapNumber: 1, X: 800, Y: 550 }
 
-; Handbook enemies
-MitachurlEnemyNumber := 13
-FatuiAgentEnemyNumber := 14
-WhopperflowerEnemyNumber := 20
-
-SelectedEnemyNumber := WhopperflowerEnemyNumber
 
 
 ; =======================================
@@ -48,11 +44,13 @@ SelectedEnemyNumber := WhopperflowerEnemyNumber
 ; =======================================
 
 SetTimer, PauseLoop
-SetTimer, ConfigureBindings, 200
+SetTimer, ConfigureBindings, 250
+SetTimer, Unfreeze, 250 ; if interval is less than 250ms, script becomes buggy, especially during a reload
+
 
 
 ; =======================================
-; Technical
+; Technical stuff
 ; =======================================
 
 ; Pause script
@@ -390,6 +388,7 @@ return
 ; =======================================
 ; Klee animation cancelling
 ; =======================================
+
 *XButton1::
     while(GetKeyState("XButton1", "P")) {
         Click
@@ -403,6 +402,7 @@ return
 ; =======================================
 ; Wait for the next night
 ; =======================================
+
 Numpad7::
     OpenMenu()
 
@@ -436,6 +436,20 @@ ClickOnClock(X, Y) {
     SendEvent, {Click %X% %Y% Up}
     Sleep, 100
 }
+
+
+
+; =======================================
+; Auto unfreeze
+; =======================================
+
+Unfreeze() {
+    while (IsFrozen()) {
+        Send, {Space}
+        Sleep, 68
+    }
+}
+
 
 
 ; =======================================
