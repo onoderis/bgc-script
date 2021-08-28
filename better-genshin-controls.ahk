@@ -13,6 +13,9 @@ SetMouseDelay 0
 ; Global variables
 ; =======================================
 
+; Static variables
+GameProcessName := "ahk_exe GenshinImpact.exe"
+
 ; Global state
 BindingsEnabled := 0
 AutoRun := 0
@@ -43,9 +46,10 @@ GuiliPlainsExpedition := { MapNumber: 1, X: 800, Y: 550 }
 ; Script initialization
 ; =======================================
 
-SetTimer, PauseLoop
+SetTimer, SuspendOnGameInactive, -1
+SetTimer, ExitOnGameClose, 5000
 SetTimer, ConfigureBindings, 250
-SetTimer, Unfreeze, 250 ; if interval is less than 250ms, script becomes buggy, especially during a reload
+SetTimer, Unfreeze, 250 ; if interval is less than 250ms, timer becomes buggy, especially during a reload
 
 
 
@@ -64,13 +68,25 @@ Numpad0::
     Reload
 return
 
-PauseLoop() {
+SuspendOnGameInactive() {
+    global GameProcessName
+
     Suspend ; run suspended
     loop {
-        WinWaitActive, ahk_exe GenshinImpact.exe
+        WinWaitActive, %GameProcessName%
         Suspend, Off
-        WinWaitNotActive, ahk_exe GenshinImpact.exe
+
+        WinWaitNotActive, %GameProcessName%
         Suspend, On
+    }
+}
+
+ExitOnGameClose() {
+    global GameProcessName
+
+    ; WinWaitActive is blocked forever when WinWaitClose is waiting (looks like a bug), it can't be used here
+    if (!WinExist(GameProcessName)) {
+        ExitApp
     }
 }
 

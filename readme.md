@@ -27,6 +27,7 @@ The script is hard coded for 1920x1080 game resolution.
 - Craft maximum amount of ores (Numpad9, works in the blacksmith menu)
 - You can hold 1-4 to switch characters instead of clicking  
 - Pauses when the game window is not active (or explicitly on Pause key)
+- Closes when the game is closed
 
 ### Additional info
 - The script has no GUI
