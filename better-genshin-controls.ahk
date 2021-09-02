@@ -228,8 +228,8 @@ Numpad2::
     SendOnExpedition(StormterrorLairExpedition, 3, Duration)
     SendOnExpedition(DihuaMarshExpedition, 3, Duration)
     SendOnExpedition(JueyunKarstExpedition, 4, Duration)
-    SendOnExpedition(JinrenIslandExpedition, 4, Duration)
-    SendOnExpedition(TarasunaExpedition, 5, Duration)
+    SendOnExpedition(JinrenIslandExpedition, 5, Duration)
+    SendOnExpedition(TarasunaExpedition, 6, Duration)
 return
 
 SelectExpedition(Expedition) {
