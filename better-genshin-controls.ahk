@@ -16,10 +16,6 @@ SetMouseDelay 0
 ; Static variables
 GameProcessName := "ahk_exe GenshinImpact.exe"
 
-; Global state
-BindingsEnabled := 0
-AutoRun := 0
-
 ; Expedition duration coordinates
 Duration4H := { X: 1500, Y: 700 }
 Duration20H := { X: 1800, Y: 700 }
@@ -97,28 +93,23 @@ ExitOnGameClose() {
 ; =======================================
 
 ConfigureBindings() {
-    global BindingsEnabled
-
-    PixelGetColor, Color, 807, 1010, RGB ; left pixel of the hp bar
+    PixelGetColor, Color, 807, 1010, "RGB" ; left pixel of the hp bar
     HpBarFound := (Color = "0x8DC921") || (Color = "0xEF5555") || (Color = "0xEFBF2F") ; green or red or orange
 
+    PixelGetColor, ThirdActionItemColor, 1626, 1029, "RGB"
+    FishingActive := ThirdActionItemColor = "0xFFE92C" ; is 3rd action icon bound to LMB
+
     Toggled := 0
-    if (HpBarFound && !BindingsEnabled) {
+    if (HpBarFound && !FishingActive) {
         ; enable bindings
         Hotkey, *~LButton, NormalAutoAttack, On
         Hotkey, *RButton, StrongAttack, On
         Hotkey, ~$*f, SpamF, On
-        Toggled := 1
-    } else if (!HpBarFound && BindingsEnabled) {
+    } else {
         ; disable bindings
         Hotkey, *~LButton, NormalAutoAttack, Off
         Hotkey, *RButton, StrongAttack, Off
-        Hotkey, ~$*f, SpamF, Off,
-        Toggled := 1
-    }
-
-    if (Toggled) {
-        BindingsEnabled := !BindingsEnabled
+        Hotkey, ~$*f, SpamF, Off
     }
 }
 
