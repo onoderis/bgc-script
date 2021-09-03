@@ -1,10 +1,18 @@
+; Static variables
+GameProcessName := "ahk_exe GenshinImpact.exe"
+
+RedNotificationColor := "0xE6455F"
+LightMenuColor := "0xECE5D8"
+
+
 OpenMenu() {
     Send, {Esc}
     WaitMenu()
 }
 
 WaitMenu() {
-    WaitPixelColor("ECE5D8", 729, 63, 2000) ; wait for menu
+    global LightMenuColor
+    WaitPixelColor(LightMenuColor, 729, 63, 2000) ; wait for menu
 }
 
 OpenInventory() {
@@ -16,16 +24,22 @@ ClickOnBottomRightButton() {
     MouseClick, left, 1730, 1000
 }
 
-WaitFullScreenMenu(Timeout) {
-    WaitPixelColor("ECE5D8", 1859, 47, Timeout) ; wait for close button on the top right
+WaitFullScreenMenu(Timeout := 3000) {
+    WaitPixelColor("0xECE5D8", 1859, 47, Timeout) ; wait for close button on the top right
+}
+
+IsFullScreenMenuOpen() {
+    global LightMenuColor
+    PixelGetColor, Color, 729, 63, "RGB"
+    return Color = LightMenuColor
 }
 
 WaitDeployButtonActive(Timeout) {
-    WaitPixelColor("313131", 1557, 1005, Timeout) ; wait for close button on the top right
+    WaitPixelColor("0x313131", 1557, 1005, Timeout) ; wait for close button on the top right
 }
 
 WaitDialogMenu() {
-    WaitPixelColor("656D76", 1180, 537, 2000) ; wait for "..." icon in the center of the screen
+    WaitPixelColor("0x656D76", 1180, 537, 2000) ; wait for "..." icon in the center of the screen
 }
 
 ; Check is a character frozen
@@ -46,12 +60,10 @@ IsFrozen() {
 ; Color - hex string in RGB format, for example "A0B357".
 ; Timeout - timeout in milliseconds.
 WaitPixelColor(Color, X, Y, Timeout) {
-    FormattedColor := "0x" . Color
-
     StartTime := A_TickCount
     loop {
         PixelGetColor, CurrentColor, X, Y, "RGB"
-        if (CurrentColor = FormattedColor) {
+        if (CurrentColor = Color) {
             return
         } else if (ErrorLevel) {
             throw "Error level " . ErrorLevel

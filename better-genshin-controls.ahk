@@ -13,8 +13,6 @@ SetMouseDelay 0
 ; Global variables
 ; =======================================
 
-; Static variables
-GameProcessName := "ahk_exe GenshinImpact.exe"
 
 ; Expedition duration coordinates
 Duration4H := { X: 1500, Y: 700 }
@@ -194,7 +192,7 @@ ChangeParty(Direction) {
     WaitDeployButtonActive(1000)
     MouseClick, left, 1700, 1000 ; press Deploy button
 
-    WaitPixelColor("FFFFFF", 836, 491, 2000) ; wait for "Party deployed" notification
+    WaitPixelColor("0xFFFFFF", 836, 491, 2000) ; wait for "Party deployed" notification
     Send, {Esc}
 }
 
@@ -326,7 +324,7 @@ Numpad5::
     OpenInventory()
 
     MouseClick, left, 1050, 50 ; gadgets tab
-    WaitPixelColor("D3BC8E", 1055, 92, 1000) ; wait for tab to be active
+    WaitPixelColor("0xD3BC8E", 1055, 92, 1000) ; wait for tab to be active
 
     MouseClick, left, 270, 180 ; select first gadget
     ClickOnBottomRightButton()
@@ -345,14 +343,14 @@ Numpad3::
     OpenMenu()
 
     MouseClick, left, 49, 1022 ; logout button
-    WaitPixelColor("D7AF32", 1024, 753, 5000) ; wait logout menu
+    WaitPixelColor("0xD7AF32", 1024, 753, 5000) ; wait logout menu
 
     MouseClick, left, 1197, 759 ; confirm
-    WaitPixelColor("222222", 1823, 794, 5000) ; wait for settings icon
+    WaitPixelColor("0x222222", 1823, 794, 5000) ; wait for settings icon
 
     MouseClick, left, 500, 500
     Sleep, 500
-    WaitPixelColor("FEFEFE", 1808, 793, 15000) ; wait for "click to begin"
+    WaitPixelColor("0xFEFEFE", 1808, 793, 15000) ; wait for "click to begin"
 
     MouseClick, left, 600, 500
 return
@@ -414,7 +412,7 @@ Numpad7::
     OpenMenu()
 
     MouseClick, left, 45, 715 ; clock icon
-    WaitPixelColor("ECE5D8", 1870, 50, 5000) ; wait for clock menu
+    WaitPixelColor("0xECE5D8", 1870, 50, 5000) ; wait for clock menu
 
     ClockCenterX := 1440
     ClockCenterY := 501
@@ -428,7 +426,7 @@ Numpad7::
     MouseClick, left, 1440, 1000 ; "Confirm" button
 
     Sleep, 100
-    WaitPixelColor("ECE5D8", 1870, 50, 30000) ; wait for clock menu
+    WaitPixelColor("0xECE5D8", 1870, 50, 30000) ; wait for clock menu
 
     Send, {Esc}
     WaitMenu()
@@ -458,20 +456,64 @@ Unfreeze() {
 }
 
 
-
 ; =======================================
-; Debug
+; Receive all BP exp and rewards
 ; =======================================
 
-*NumpadDot::
-    ;KeyHistory
-    ;ListVars
+NumpadDot::
+    ;global RedNotificationColor
 
-    MouseGetPos, X, Y
-    PixelGetColor, Color, X, Y , "RGB"
+    ;PixelGetColor, Color, 1515, 23, "RGB" ; top right BP notification icon
+    ;if (Color != RedNotificationColor) {
+    ;    MsgBox, "No BP exp or reward"
+    ;    return
+    ;}
 
-    MsgBox, %Color% %X% %Y%
+    Send, {f4}
+    WaitFullScreenMenu()
 
-    ;OpenInventory()
-    ;MsgBox, test
+    ReceiveBpExp()
+    ReceiveBpRewards()
+
+    Send, {Esc}
 return
+
+ReceiveBpExp() {
+    global RedNotificationColor
+
+    ; Check for available BP experience and receive if any
+    PixelGetColor, Color, 993, 20, "RGB"
+    if (Color != RedNotificationColor) {
+        return ; no exp
+    }
+
+    MouseClick, left, 993, 20 ; to exp tab
+    Sleep, 100
+
+    ClickOnBottomRightButton() ; "Claim all"
+    Sleep, 200
+
+    if (!IsFullScreenMenuOpen()) {
+        ; level up, need to close popup
+        Send, {Esc}
+        WaitFullScreenMenu()
+    }
+}
+
+ReceiveBpRewards() {
+    global RedNotificationColor
+
+    ; Check for available BP experience and receive if any
+    PixelGetColor, Color, 899, 20, "RGB"
+    if (Color != RedNotificationColor) {
+        return ; no rewards
+    }
+
+    MouseClick, left, 899, 20 ; to rewards tab
+    Sleep, 100
+
+    ClickOnBottomRightButton() ; "Claim all"
+    Sleep, 200
+    Send, {Esc} ; close popup with received rewards
+    WaitFullScreenMenu()
+}

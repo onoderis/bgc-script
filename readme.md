@@ -17,6 +17,7 @@ The script is hard coded for 1920x1080 game resolution.
 - Auto unfreeze
 - Receive all rewards from expeditions (Numpad1)
 - Send characters on expeditions (Numpad2)
+- Receive battle pass experience and rewards (Numpad .)
 - Go to the serenitea pot (Numpad5)
 - Relogin (Numpad3)
 - Wait for the next night (Numpad7)
