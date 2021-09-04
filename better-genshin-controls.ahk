@@ -345,7 +345,7 @@ Numpad3::
     OpenMenu()
 
     MouseClick, left, 49, 1022 ; logout button
-    WaitPixelColor("0xD7AF32", 1024, 753, 5000) ; wait logout menu
+    WaitPixelColor("0x313131", 1017, 757, 5000) ; wait logout menu
 
     MouseClick, left, 1197, 759 ; confirm
     WaitPixelColor("0x222222", 1823, 794, 5000) ; wait for settings icon
