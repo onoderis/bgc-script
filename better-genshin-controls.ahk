@@ -363,28 +363,28 @@ return
 ; Hold 1-4 to switch character
 ; =======================================
 
-*1::
+~*1::
     while(GetKeyState("1", "P")) {
         Send, {1}
         Sleep, 100
     }
 return
 
-*2::
+~*2::
     while(GetKeyState("2", "P")) {
         Send, {2}
         Sleep, 100
     }
 return
 
-*3::
+~*3::
     while(GetKeyState("3", "P")) {
         Send, {3}
         Sleep, 100
     }
 return
 
-*4::
+~*4::
     while(GetKeyState("4", "P")) {
         Send, {4}
         Sleep, 100
