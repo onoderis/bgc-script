@@ -102,12 +102,12 @@ ConfigureBindings() {
         ; enable bindings
         Hotkey, *~LButton, NormalAutoAttack, On
         Hotkey, *RButton, StrongAttack, On
-        Hotkey, ~$*f, SpamF, On
+        Hotkey, ~$*f, Loot, On
     } else {
         ; disable bindings
         Hotkey, *~LButton, NormalAutoAttack, Off
         Hotkey, *RButton, StrongAttack, Off
-        Hotkey, ~$*f, SpamF, Off
+        Hotkey, ~$*f, Loot, Off
     }
 }
 
@@ -142,13 +142,15 @@ StrongAttack() {
 
 
 ; =======================================
-; Pick up on press
+; Hold F to loot
 ; =======================================
 
-SpamF() {
+Loot() {
     while(GetKeyState("f", "P")) {
         Send, {f}
-        Sleep, 40
+        Sleep, 20
+        Send, {WheelDown}
+        Sleep, 20
     }
 }
 
