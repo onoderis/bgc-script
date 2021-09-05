@@ -21,6 +21,7 @@ The script is hard coded for 1920x1080 game resolution.
 - Relogin (Numpad3)
 - Wait for the next night (Numpad7)
 - Change current party (Numpad4 - previous, Numpad6 - next)
+- Teleport in one click (on the world map move your cursor to desirable location and click Middle mouse button)
 - Spam LMB click (XButton2) 
 - Lock artifact (Numpad8, works only in the bag menu)
 - Craft maximum amount of ores (Numpad9, works in the blacksmith menu)

@@ -519,3 +519,55 @@ ReceiveBpRewards() {
     Send, {Esc} ; close popup with received rewards
     WaitFullScreenMenu()
 }
+
+
+
+; =======================================
+; Teleport in one click
+; =======================================
+
+~MButton::
+    PixelGetColor, SpiralAbyssIconColor, 1512, 46, "RGB"
+    if (SpiralAbyssIconColor != "0x008EFE") {
+        return ; not in the world map menu
+    }
+
+    MapClick()
+    Sleep, 350
+
+    PixelGetColor, TpColor, 1480, 1011, "RGB"
+    if (TpColor = "0xFFCB33") {
+        ; selected point has only 1 selectable option and it's available for teleport
+        ClickOnBottomRightButton()
+        Sleep, 50
+        MoveCursorToCenter()
+    } else {
+        ; selected point has multiple selectable options or selected point is not available for teleport
+
+        ; Teleport waypoint, Statue of The Seven, Domain, One-time dungeon
+        TeleportablePointsColor := [ "0x2D91D9", "0x99ECF5", "0x05EDF6", "0x00FFFF" ]
+
+        for index, TeleportablePointColor in TeleportablePointsColor {
+            Teleported := FindIconAndTeleport(TeleportablePointColor)
+            if (Teleported) {
+                MoveCursorToCenter()
+                break
+            }
+        }
+    }
+return
+
+FindIconAndTeleport(IconPixelColor) {
+    PixelSearch, FoundX, FoundY, 1298, 440, 1300, 1040, IconPixelColor, 2, "Fast RGB"
+    if (ErrorLevel) {
+        ; icon wasn't found
+        return false
+    }
+
+    MouseClick, left, FoundX, FoundY
+    WaitPixelColor("0xFFCB33", 1480, 1011, 500) ; "Teleport" button
+
+    ClickOnBottomRightButton()
+    Sleep, 50
+    return true
+}

@@ -55,9 +55,23 @@ IsFrozen() {
     return SpaceButtonColor = "0xFFFFFF"
 }
 
+; Special click function for the world map menu.
+;
+; For some reasons MouseClick(and Click) doesn't work consistently: it doesn't works if a click goes to an empty place,
+; but works fine if a click goes to an interactable point.
+MapClick() {
+    Send, {LButton down}
+    Sleep, 50
+    Send, {LButton up}
+}
+
+MoveCursorToCenter() {
+    MouseMove, % A_ScreenWidth / 2, % A_ScreenHeight / 2
+}
+
 ; Wait for pixel to be the specified color or throw exception after the specified Timeout.
 ;
-; Color - hex string in RGB format, for example "A0B357".
+; Color - hex string in RGB format, for example "0xA0B357".
 ; Timeout - timeout in milliseconds.
 WaitPixelColor(Color, X, Y, Timeout) {
     StartTime := A_TickCount
