@@ -91,8 +91,8 @@ ExitOnGameClose() {
 ; =======================================
 
 ConfigureBindings() {
-    PixelGetColor, Color, 807, 1010, "RGB" ; left pixel of the hp bar
-    HpBarFound := (Color = "0x8DC921") || (Color = "0xEF5555") || (Color = "0xEFBF2F") ; green or red or orange
+    PixelGetColor, Color, 808, 1010, "RGB" ; left pixel of the hp bar
+    HpBarFound := (Color = "0x96D722") || (Color = "0xFF5A5A") || (Color = "0xFFCC32") ; green or red or orange
 
     PixelGetColor, ThirdActionItemColor, 1626, 1029, "RGB"
     FishingActive := ThirdActionItemColor = "0xFFE92C" ; is 3rd action icon bound to LMB
