@@ -86,3 +86,31 @@ WaitPixelColor(Color, X, Y, Timeout) {
         }
     }
 }
+
+; Wait to at least one pixel of the specified color to appear in the corresponding region.
+;
+; Regions - array of objects that must have the following fields:
+;     X1, Y1, X2, Y2 - region coordinates;
+;     Color - pixel color to wait.
+; Returns found region or throws exception
+WaitPixelsRegions(Regions, Timeout := 2000) {
+    StartTime := A_TickCount
+    loop {
+        for Index, Region in Regions {
+            X1 := Region["X1"]
+            X2 := Region["X2"]
+            Y1 := Region["Y1"]
+            Y2 := Region["Y2"]
+            Color := Region["Color"]
+
+            PixelSearch, FoundX, FoundY, X1, Y1, X2, Y2, Color, 0, "Fast RGB"
+            if (!ErrorLevel) {
+                return Region
+            }
+        }
+
+        if (A_TickCount - StartTime >= Timeout) {
+            throw "Timeout " . Timeout . " ms"
+        }
+    }
+}

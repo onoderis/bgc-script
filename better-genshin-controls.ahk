@@ -107,7 +107,6 @@ ConfigureBindings() {
     PixelGetColor, ThirdActionItemColor, 1626, 1029, "RGB"
     FishingActive := ThirdActionItemColor = "0xFFE92C" ; is 3rd action icon bound to LMB
 
-    Toggled := 0
     if (HpBarFound && !FishingActive) {
         ; enable bindings
         Hotkey, *~LButton, NormalAutoAttack, On
@@ -543,21 +542,23 @@ ReceiveBpRewards() {
     }
 
     MapClick()
-    Sleep, 350
+    ; wait for little white arrow or teleport button
+    WaitPixelsRegions([ { X1: 1255, Y1: 484, X2: 1258, Y2: 1080, Color: "0xECE5D8" }, { X1: 1478, Y1: 1012, X2: 1478, Y2: 1013, Color: "0xFFCC33" } ])
 
-    PixelGetColor, TpColor, 1480, 1011, "RGB"
-    if (TpColor = "0xFFCB33") {
+    PixelGetColor, TpColor, 1478, 1012, "RGB"
+    if (TpColor = "0xFFCC33") {
         ; selected point has only 1 selectable option and it's available for teleport
         ClickOnBottomRightButton()
         Sleep, 50
         MoveCursorToCenter()
     } else {
         ; selected point has multiple selectable options or selected point is not available for teleport
+        TeleportablePointColors := [ "0x2D91D9" ; Teleport waypoint
+            , "0x99ECF5"                        ; Statue of The Seven
+            , "0x05EDF6"                        ; Domain
+            , "0x00FFFF" ]                      ; One-time dungeon
 
-        ; Teleport waypoint, Statue of The Seven, Domain, One-time dungeon
-        TeleportablePointsColor := [ "0x2D91D9", "0x99ECF5", "0x05EDF6", "0x00FFFF" ]
-
-        for index, TeleportablePointColor in TeleportablePointsColor {
+        for Index, TeleportablePointColor in TeleportablePointColors {
             Teleported := FindIconAndTeleport(TeleportablePointColor)
             if (Teleported) {
                 MoveCursorToCenter()
@@ -568,7 +569,7 @@ ReceiveBpRewards() {
 return
 
 FindIconAndTeleport(IconPixelColor) {
-    PixelSearch, FoundX, FoundY, 1298, 440, 1300, 1040, IconPixelColor, 2, "Fast RGB"
+    PixelSearch, FoundX, FoundY, 1298, 460, 1299, 1080, IconPixelColor, 0, "Fast RGB"
     if (ErrorLevel) {
         ; icon wasn't found
         return false
