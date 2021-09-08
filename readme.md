@@ -7,7 +7,7 @@ The script is hard coded for 1920x1080 game resolution.
 1. Download [autohotkey](https://www.autohotkey.com) (the script is tested on version 1.1.33.08)
 2. Download this repository (including all `.ahk` files)
 3. Run `better-genshin-controls.ahk` (requires administrator rights)
-4. Run the game in fullscreen mode or in borderless window mode (with "-popupwindow" option)
+4. Run the game in fullscreen mode or in [borderless window mode](https://gaming.stackexchange.com/a/376533)
 
 ### Features
 - Hold F to pick up loot
