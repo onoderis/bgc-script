@@ -537,13 +537,17 @@ ReceiveBpRewards() {
 
 ~MButton::
     PixelGetColor, SpiralAbyssIconColor, 1512, 46, "RGB"
-    if (SpiralAbyssIconColor != "0x008EFE") {
+    if (SpiralAbyssIconColor != "0x008EFE") { ; todo tested only on stage 9, icon location may be different
         return ; not in the world map menu
     }
 
     MapClick()
-    ; wait for little white arrow or teleport button
-    WaitPixelsRegions([ { X1: 1255, Y1: 484, X2: 1258, Y2: 1080, Color: "0xECE5D8" }, { X1: 1478, Y1: 1012, X2: 1478, Y2: 1013, Color: "0xFFCC33" } ])
+    try {
+        ; wait for a little white arrow or a teleport button
+        WaitPixelsRegions([ { X1: 1255, Y1: 484, X2: 1258, Y2: 1080, Color: "0xECE5D8" }, { X1: 1478, Y1: 1012, X2: 1478, Y2: 1013, Color: "0xFFCC33" } ])
+    } catch e {
+        return
+    }
 
     PixelGetColor, TpColor, 1478, 1012, "RGB"
     if (TpColor = "0xFFCC33") {

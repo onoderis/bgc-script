@@ -93,7 +93,7 @@ WaitPixelColor(Color, X, Y, Timeout) {
 ;     X1, Y1, X2, Y2 - region coordinates;
 ;     Color - pixel color to wait.
 ; Returns found region or throws exception
-WaitPixelsRegions(Regions, Timeout := 2000) {
+WaitPixelsRegions(Regions, Timeout := 1000) {
     StartTime := A_TickCount
     loop {
         for Index, Region in Regions {
