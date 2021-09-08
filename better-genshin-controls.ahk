@@ -1,4 +1,5 @@
 ﻿#NoEnv
+#SingleInstance Force
 #MaxHotkeysPerInterval 100
 #InstallKeybdHook
 #InstallMouseHook
@@ -9,10 +10,19 @@ SetWorkingDir %A_ScriptDir%
 SetKeyDelay 0
 SetMouseDelay 0
 
+; Rerun script with administrator rights if required.
+if (!A_IsAdmin) {
+    try {
+        Run *RunAs "%A_ScriptFullPath%"
+    } catch e {
+        MsgBox, Failed to run script with administrator rights
+        ExitApp
+    }
+}
+
 ; =======================================
 ; Global variables
 ; =======================================
-
 
 ; Expedition duration coordinates
 Duration4H := { X: 1500, Y: 700 }
