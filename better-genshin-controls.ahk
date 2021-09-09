@@ -24,6 +24,8 @@ if (!A_IsAdmin) {
 ; Global variables
 ; =======================================
 
+ContextualBindingsEnabled := false
+
 ; Expedition duration coordinates
 Duration4H := { X: 1500, Y: 700 }
 Duration20H := { X: 1800, Y: 700 }
@@ -52,7 +54,7 @@ GuiliPlainsExpedition := { MapNumber: 1, X: 800, Y: 550 }
 
 SetTimer, SuspendOnGameInactive, -1
 SetTimer, ExitOnGameClose, 5000
-SetTimer, ConfigureBindings, 250
+SetTimer, ConfigureContextualBindings, 250
 SetTimer, Unfreeze, 250 ; if interval is less than 250ms, timer becomes buggy, especially during a reload
 
 
@@ -100,23 +102,27 @@ ExitOnGameClose() {
 ; Enable/disable contextual bindings
 ; =======================================
 
-ConfigureBindings() {
+ConfigureContextualBindings() {
+    global ContextualBindingsEnabled
+
     PixelGetColor, Color, 808, 1010, "RGB" ; left pixel of the hp bar
     HpBarFound := (Color = "0x96D722") || (Color = "0xFF5A5A") || (Color = "0xFFCC32") ; green or red or orange
 
     PixelGetColor, ThirdActionItemColor, 1626, 1029, "RGB"
     FishingActive := ThirdActionItemColor = "0xFFE92C" ; is 3rd action icon bound to LMB
 
-    if (HpBarFound && !FishingActive) {
+    if (!ContextualBindingsEnabled && HpBarFound && !FishingActive) {
         ; enable bindings
         Hotkey, *~LButton, NormalAutoAttack, On
         Hotkey, *RButton, StrongAttack, On
         Hotkey, ~$*f, Loot, On
-    } else {
+        ContextualBindingsEnabled := true
+    } else if (ContextualBindingsEnabled && (!HpBarFound || FishingActive)) {
         ; disable bindings
         Hotkey, *~LButton, NormalAutoAttack, Off
         Hotkey, *RButton, StrongAttack, Off
         Hotkey, ~$*f, Loot, Off
+        ContextualBindingsEnabled := false
     }
 }
 
@@ -134,7 +140,7 @@ NormalAutoAttack() {
 
 SpamLeftClick() {
     MouseClick left
-    Sleep, 150
+    Sleep, 250
 }
 
 StrongAttack() {
