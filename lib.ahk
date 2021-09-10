@@ -25,12 +25,13 @@ ClickOnBottomRightButton() {
 }
 
 WaitFullScreenMenu(Timeout := 3000) {
-    WaitPixelColor("0xECE5D8", 1859, 47, Timeout) ; wait for close button on the top right
+    global LightMenuColor
+    WaitPixelColor(LightMenuColor, 1859, 47, Timeout) ; wait for close button on the top right
 }
 
 IsFullScreenMenuOpen() {
     global LightMenuColor
-    PixelGetColor, Color, 729, 63, "RGB"
+    PixelGetColor, Color, 1859, 47, "RGB"
     return Color = LightMenuColor
 }
 
