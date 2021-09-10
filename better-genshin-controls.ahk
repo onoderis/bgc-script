@@ -134,13 +134,9 @@ ConfigureContextualBindings() {
 
 NormalAutoAttack() {
     while(GetKeyState("LButton", "P")) {
-        SpamLeftClick()
+        MouseClick, left
+        Sleep, 150
     }
-}
-
-SpamLeftClick() {
-    MouseClick left
-    Sleep, 250
 }
 
 StrongAttack() {
