@@ -422,6 +422,14 @@ return
 ; =======================================
 
 Numpad7::
+    WaitUntilInGameTime("18")
+return
+
+!Numpad7::
+    WaitUntilInGameTime("06")
+return
+
+WaitUntilInGameTime(Time) {
     OpenMenu()
 
     MouseClick, left, 45, 715 ; clock icon
@@ -431,10 +439,19 @@ Numpad7::
     ClockCenterY := 501
     Offset := 30
 
-    ClickOnClock(ClockCenterX, ClockCenterY + Offset) ; 00:00
-    ClickOnClock(ClockCenterX - Offset, ClockCenterY) ; 06:00
-    ClickOnClock(ClockCenterX, ClockCenterY - Offset) ; 12:00
-    ClickOnClock(ClockCenterX + Offset, ClockCenterY) ; 18:00
+    if (Time = "18") {
+        ClickOnClock(ClockCenterX, ClockCenterY + Offset) ; 00:00
+        ClickOnClock(ClockCenterX - Offset, ClockCenterY) ; 06:00
+        ClickOnClock(ClockCenterX, ClockCenterY - Offset) ; 12:00
+        ClickOnClock(ClockCenterX + Offset, ClockCenterY) ; 18:00
+    } else if (Time = "06") {
+        ClickOnClock(ClockCenterX, ClockCenterY - Offset) ; 12:00
+        ClickOnClock(ClockCenterX + Offset, ClockCenterY) ; 18:00
+        ClickOnClock(ClockCenterX, ClockCenterY + Offset) ; 00:00
+        ClickOnClock(ClockCenterX - Offset, ClockCenterY - 1) ; 06:00
+    } else {
+        throw "Unexpected time argument" . Time
+    }
 
     MouseClick, left, 1440, 1000 ; "Confirm" button
 
@@ -445,8 +462,7 @@ Numpad7::
     WaitMenu()
 
     Send, {Esc}
-return
-
+}
 
 ClickOnClock(X, Y) {
     SendEvent, {Click %X% %Y% Down}

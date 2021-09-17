@@ -19,7 +19,7 @@ The script is hard coded for 1920x1080 game resolution.
 - Receive battle pass experience and rewards (Numpad .)
 - Go to the serenitea pot (Numpad5)
 - Relogin (Numpad3)
-- Wait for the next night (Numpad7)
+- Wait for the next night (Numpad7) or morning (Alt + Numpad7)
 - Change current party (Numpad4 - previous, Numpad6 - next)
 - Teleport in one click (move your cursor to desirable location on the world map and click Middle mouse button)
 - Spam LMB click (XButton2) 
