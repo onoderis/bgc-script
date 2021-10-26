@@ -362,8 +362,8 @@ Numpad3::
     WaitPixelColor("0x222222", 1823, 794, 5000) ; wait for settings icon
 
     MouseClick, left, 500, 500
-    Sleep, 500
-    WaitPixelColor("0xFEFEFE", 1808, 793, 15000) ; wait for "click to begin"
+    Sleep, 500 ; time for settings icon to disappear
+    WaitPixelColor("0x222222", 1823, 794, 5000) ; wait for settings icon again
 
     MouseClick, left, 600, 500
 return
