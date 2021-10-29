@@ -359,11 +359,11 @@ Numpad3::
     WaitPixelColor("0x313131", 1017, 757, 5000) ; wait logout menu
 
     MouseClick, left, 1197, 759 ; confirm
-    WaitPixelColor("0x222222", 1823, 794, 5000) ; wait for settings icon
+    WaitPixelColor("0x222222", 1823, 794, 10000) ; wait for settings icon
 
     MouseClick, left, 500, 500
     Sleep, 500 ; time for settings icon to disappear
-    WaitPixelColor("0x222222", 1823, 794, 5000) ; wait for settings icon again
+    WaitPixelColor("0x222222", 1823, 794, 15000) ; wait for settings icon again
 
     MouseClick, left, 600, 500
 return
